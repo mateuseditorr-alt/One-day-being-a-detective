@@ -2,283 +2,241 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Caso Thorne: Edição Especialista</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Caso Thorne: Arquivo Morto</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Kalam:wght@300;400;700&family=Special+Elite&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Kalam:wght@300;400;700&family=Special+Elite&family=Roboto+Condensed:wght@300;400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --paper-bg: #fdfbf7;
             --line-color: #a4b0be;
             --margin-line: #ff7675;
             --ink-blue: #2c3e50;
-            --pencil-gray: #636e72;
-            --highlight: rgba(255, 242, 0, 0.3);
-            --tape-color: rgba(255, 255, 255, 0.6);
             --bg-dark: #1e1e1e;
+            --phone-bg: #121212;
+            --phone-accent: #0a84ff;
+            --phone-bubble-in: #262628;
+            --phone-bubble-out: #0a84ff;
         }
 
-        * { box-sizing: border-box; }
+        /* --- 1. RESET E BASE --- */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             background-color: var(--bg-dark);
-            margin: 0;
-            padding: 0;
-            height: 100dvh;
-            width: 100vw;
-            display: flex;
-            flex-direction: column;
+            margin: 0; padding: 0;
+            min-height: 100vh;
+            width: 100%;
             font-family: 'Courier Prime', monospace;
-            overflow: hidden;
+            color: #333;
+            overflow-y: auto; 
+            overflow-x: hidden;
         }
 
-        /* TEXTURA DE FUNDO */
         .desk-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url("https://www.transparenttextures.com/patterns/wood-pattern.png");
-            opacity: 0.3;
-            z-index: 0;
-            pointer-events: none;
+            opacity: 0.3; z-index: -1; pointer-events: none;
         }
 
-        /* O CADERNO */
+        /* --- 2. CONTAINER --- */
         #notebook-container {
-            flex: 1;
-            margin: 5px;
-            /* Removida a margem grande inferior pois o botão subiu */
-            margin-bottom: 10px; 
+            position: relative;
             background-color: var(--paper-bg);
             box-shadow: 0 0 20px rgba(0,0,0,0.8);
-            position: relative;
             z-index: 10;
-            border-radius: 4px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            min-height: 100vh;
         }
 
-        /* CABEÇALHO COM O BOTÃO */
+        @media(min-width: 768px) {
+            body { padding: 20px; display: flex; align-items: center; justify-content: center; }
+            #notebook-container { margin: 20px auto; border-radius: 4px; min-height: auto; height: 90vh; }
+        }
+
+        /* --- 3. HEADER --- */
         .notebook-header {
             background: #dcdde1;
-            padding: 10px 15px;
+            padding: 15px;
             border-bottom: 3px solid #2f3640;
             font-family: 'Special Elite', cursive;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 20;
-            gap: 10px; /* Espaço entre título e botão */
+            display: flex; justify-content: space-between; align-items: center;
+            flex-shrink: 0;
         }
 
-        /* BOTÃO DE PRISÃO (NOVO ESTILO) */
         .header-solve-btn {
-            background: #c23616;
-            color: white;
-            font-family: 'Special Elite', cursive;
-            font-size: 0.85rem;
-            padding: 8px 15px;
-            border: 2px solid #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            cursor: pointer;
-            border-radius: 4px;
-            text-transform: uppercase;
-            white-space: nowrap;
-            animation: pulse 2s infinite;
-            transition: transform 0.1s;
+            background: #2f3640; color: #f5f6fa;
+            font-family: 'Special Elite', cursive; font-size: 0.8rem;
+            padding: 8px 12px; border: 1px solid #7f8fa6;
+            cursor: pointer; border-radius: 2px;
+            text-transform: uppercase; letter-spacing: 1px;
+            transition: all 0.2s;
         }
-        .header-solve-btn:active { transform: scale(0.95); }
-        .header-solve-btn:hover { background: #e84118; }
+        .header-solve-btn:hover { background: #c23616; border-color: #c23616; }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(194, 54, 22, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(194, 54, 22, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(194, 54, 22, 0); }
-        }
-
-        /* ABAS SUPERIORES */
+        /* Abas */
         .top-tabs-container {
-            background: #2f3640;
-            padding: 8px 5px 0 5px;
-            display: flex;
-            gap: 4px;
-            overflow-x: auto;
-            white-space: nowrap;
+            background: #2f3640; padding: 0; display: flex;
+            overflow-x: auto; scrollbar-width: none; flex-shrink: 0;
         }
+        .top-tabs-container::-webkit-scrollbar { display: none; }
         
         .folder-tab {
-            background: #7f8fa6;
-            color: #fff;
-            padding: 8px 12px;
-            font-family: 'Special Elite', cursive;
-            font-size: 0.8rem;
-            border-radius: 5px 5px 0 0;
-            cursor: pointer;
-            transition: 0.2s;
-            flex-shrink: 0;
-            border: 1px solid #57606f;
-            border-bottom: none;
+            background: #57606f; color: #dcdde1;
+            padding: 12px 18px;
+            font-family: 'Special Elite', cursive; font-size: 0.8rem;
+            cursor: pointer; border-right: 1px solid #2f3640;
+            flex-shrink: 0; transition: 0.2s; text-transform: uppercase;
+            white-space: nowrap;
         }
-
         .folder-tab.active {
-            background: var(--paper-bg);
-            color: #000;
-            font-weight: bold;
-            margin-bottom: -1px;
-            z-index: 15;
-            padding-top: 10px;
+            background: var(--paper-bg); color: #2f3640;
+            font-weight: bold; border-top: 4px solid #c23616;
         }
+        .tab-phone { background: #192a56 !important; color: #74b9ff !important; }
+        .tab-phone.active { background: #121212 !important; color: #fff !important; border-top: 4px solid #0a84ff; }
 
-        /* CONTEÚDO */
+        /* --- 4. CONTEÚDO --- */
         .notebook-content {
-            flex: 1;
-            overflow-y: auto;
-            position: relative;
-            background-image: linear-gradient(var(--line-color) 1px, transparent 1px);
-            background-size: 100% 1.8rem;
-            line-height: 1.8rem;
-            padding: 20px 15px 40px 35px; /* Espaço para margem vermelha */
+            flex: 1; position: relative;
+            background-image: linear-gradient(rgba(164, 176, 190, 0.3) 1px, transparent 1px);
+            background-size: 100% 1.8rem; line-height: 1.8rem;
+            padding: 20px 15px 40px 15px;
         }
+        @media(min-width: 768px) { .notebook-content { overflow-y: auto; } }
 
         .notebook-content::before {
-            content: '';
-            position: absolute;
-            top: 0; bottom: 0; left: 25px;
-            width: 2px;
-            background-color: var(--margin-line);
-            z-index: 5;
-            pointer-events: none;
+            content: ''; position: absolute; top: 0; bottom: 0; left: 30px;
+            width: 2px; background-color: rgba(255, 118, 117, 0.5);
+            pointer-events: none; z-index: 0;
         }
 
-        .page-section { display: none; animation: fadeIn 0.3s; max-width: 900px; margin: 0 auto; }
+        .page-section { display: none; animation: fadeIn 0.3s; max-width: 800px; margin: 0 auto; padding-left: 20px; position: relative; z-index: 1; }
         .page-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* DOCUMENTOS E FOTOS */
+        h2 { font-family: 'Special Elite', cursive; border-bottom: 2px solid #2f3640; display: inline-block; margin-bottom: 20px; margin-top: 10px; font-size: 1.4rem; }
+        
         .evidence-doc {
-            background: #fff;
-            border: 1px solid #2f3640;
-            padding: 15px;
-            margin-bottom: 20px;
-            font-family: 'Roboto Condensed', sans-serif;
-            font-size: 0.95rem;
-            line-height: 1.4;
-            box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 15;
+            background: #fff; border: 1px solid #dcdde1;
+            padding: 20px; margin-bottom: 25px;
+            font-family: 'Roboto Condensed', sans-serif; font-size: 0.95rem;
+            line-height: 1.6; box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
         }
-
-        .suspect-card {
-            display: flex;
-            background: #f5f6fa;
-            border: 1px solid #ccc;
-            margin-bottom: 15px;
-            z-index: 15;
-            position: relative;
-        }
-        .suspect-img {
-            width: 80px;
-            height: 100px;
-            object-fit: cover;
-            border-right: 1px solid #ccc;
-            filter: grayscale(100%);
-        }
-        .suspect-info { padding: 10px; flex: 1; }
-
+        
         .polaroid {
-            background: white;
-            padding: 8px 8px 35px 8px;
-            box-shadow: 3px 3px 8px rgba(0,0,0,0.3);
-            transform: rotate(-1deg);
-            margin: 15px auto;
-            max-width: 100%;
-            width: 250px;
-            border: 1px solid #dcdde1;
-            z-index: 15;
-            position: relative;
-            text-align: center;
+            background: white; padding: 10px 10px 45px 10px;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+            transform: rotate(-1deg); margin: 25px auto;
+            max-width: 100%; width: 280px;
+            border: 1px solid #eee; text-align: center;
         }
-        .polaroid img { width: 100%; height: auto; display: block; filter: contrast(1.1) sepia(0.2); }
-        .caption { font-family: 'Kalam', cursive; font-size: 0.9rem; color: #2f3640; margin-top: 5px; }
+        .polaroid img { width: 100%; height: auto; filter: grayscale(20%) contrast(1.1); }
+        .caption { font-family: 'Kalam', cursive; font-size: 0.9rem; color: #555; margin-top: 10px; line-height: 1.1; }
 
-        .sticky-note {
-            background-color: #fffab0;
-            padding: 10px;
-            width: 80%;
-            margin: 10px auto;
-            font-family: 'Kalam', cursive;
-            transform: rotate(1deg);
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-            position: relative;
-            z-index: 16;
-            color: #444;
+        /* --- 5. SUSPEITOS --- */
+        .suspect-card {
+            background: #fdfdfd; border: 1px solid #95a5a6;
+            margin-bottom: 20px; padding: 0;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+        }
+        .suspect-header {
+            padding: 12px; background: #ecf0f1; border-bottom: 1px solid #bdc3c7;
+            display: flex; gap: 15px; align-items: center; cursor: pointer;
+        }
+        .suspect-thumb { width: 60px; height: 75px; object-fit: cover; filter: sepia(0.3); border: 1px solid #7f8fa6; }
+        .suspect-body { padding: 15px; font-size: 0.9rem; display: none; }
+        .suspect-body.open { display: block; }
+
+        /* --- 6. CELULAR --- */
+        .phone-wrapper {
+            background: #000; border-radius: 25px; border: 6px solid #1a1a1a;
+            max-width: 380px; width: 100%; height: 650px; margin: 0 auto;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6); position: relative; overflow: hidden;
+            font-family: 'Inter', sans-serif; line-height: normal; color: #fff;
+        }
+        
+        .phone-screen {
+            background: var(--phone-bg); width: 100%; height: 100%;
+            display: flex; flex-direction: column; overflow: hidden;
         }
 
-        .highlight { background-color: var(--highlight); padding: 0 3px; }
-        .hidden-clue { 
-            background: #b2bec3; 
-            color: transparent; 
-            cursor: pointer; 
-            border-radius: 3px; 
-            user-select: none;
-            padding: 0 5px;
+        .status-bar {
+            padding: 8px 15px; background: rgba(255,255,255,0.02);
+            display: flex; justify-content: space-between; font-size: 0.7rem; color: #888;
         }
-        .hidden-clue.revealed { background: transparent; color: #c0392b; font-weight: bold; }
 
-        /* MODAL */
+        .app-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; 
+            padding: 20px; align-content: start; flex: 1;
+        }
+        
+        .app-icon-btn {
+            display: flex; flex-direction: column; align-items: center; cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .app-icon-btn:active { transform: scale(0.95); }
+        .app-shape {
+            width: 52px; height: 52px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem; margin-bottom: 5px;
+        }
+        .app-name { font-size: 0.7rem; color: #fff; text-align: center; }
+
+        .bg-zap { background: linear-gradient(135deg, #25D366, #128C7E); }
+        .bg-tel { background: linear-gradient(135deg, #34C759, #30B34E); }
+        .bg-gal { background: linear-gradient(135deg, #5856D6, #3634A3); }
+        .bg-not { background: linear-gradient(135deg, #FF9500, #E08600); }
+
+        .app-window {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 20; display: none; flex-direction: column;
+        }
+        .app-window.active { display: flex; animation: slideUp 0.2s ease-out; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        .app-nav {
+            padding: 12px; background: rgba(28, 28, 30, 0.95);
+            border-bottom: 1px solid #333; display: flex; align-items: center;
+            justify-content: space-between; z-index: 30;
+        }
+        .app-content { flex: 1; overflow-y: auto; padding: 0; background: #000; }
+
+        .chat-row {
+            display: flex; gap: 10px; padding: 12px; border-bottom: 1px solid #1c1c1e;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .chat-row:hover { background: #1c1c1e; }
+        .avatar { width: 45px; height: 45px; border-radius: 50%; background: #333; flex-shrink: 0; }
+        
+        .msg-bubble {
+            max-width: 80%; padding: 8px 12px; border-radius: 16px; 
+            margin-bottom: 8px; font-size: 0.85rem; line-height: 1.3;
+        }
+        .sent { align-self: flex-end; background: var(--phone-bubble-out); color: white; border-bottom-right-radius: 2px; }
+        .received { align-self: flex-start; background: var(--phone-bubble-in); color: #fff; border-bottom-left-radius: 2px; }
+
+        /* --- 7. MODAL --- */
         .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 200;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 20px;
-            overflow-y: auto;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 100; 
+            justify-content: center; align-items: center; padding: 20px;
         }
         .modal-paper {
-            background: #f5f6fa;
-            padding: 20px;
-            width: 100%;
-            max-width: 600px;
-            margin-top: 20px;
-            margin-bottom: 50px;
-            border: 4px solid #2f3640;
+            background: #f5f6fa; padding: 25px; width: 100%; max-width: 450px;
+            border: 4px solid #2f3640; max-height: 90vh; overflow-y: auto;
+            font-family: 'Courier Prime', monospace;
         }
-        .grid-suspects {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
+        .suspect-grid-select { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
+        .s-option {
+            background: white; border: 2px solid #ccc; padding: 10px; 
+            text-align: center; cursor: pointer; transition: 0.2s;
         }
-        .suspect-option {
-            background: #fff;
-            border: 2px solid #ccc;
-            padding: 10px;
-            cursor: pointer;
-            text-align: center;
-        }
-        .suspect-option.selected {
-            border-color: #c23616;
-            background: #fab1a0;
-        }
-        .suspect-option img { width: 50px; height: 50px; object-fit: cover; border-radius: 50%; margin: 0 auto; display: block; }
-        
-        .modal-btn {
-            background: #c23616;
-            color: white;
-            font-family: 'Special Elite', cursive;
-            font-size: 1.1rem;
-            padding: 10px 40px;
-            border: 2px solid #fff;
-            box-shadow: 0 0 10px rgba(194, 54, 22, 0.5);
-            cursor: pointer;
-        }
-
-        @media(max-width: 500px) {
-            .grid-suspects { grid-template-columns: 1fr; }
-        }
+        .s-option.selected { border-color: #c23616; background: #ffcccc; }
+        .s-option img { width: 50px; height: 50px; border-radius: 50%; margin-bottom: 5px; object-fit: cover; }
 
     </style>
 </head>
@@ -287,263 +245,440 @@
     <div class="desk-bg"></div>
 
     <div id="notebook-container">
-        <!-- HEADER COM BOTÃO NOVO -->
         <div class="notebook-header">
             <div>
-                <h1 class="text-lg md:text-xl font-bold text-gray-800">CASO THORNE</h1>
-                <p class="text-[10px] text-gray-600 font-bold uppercase tracking-widest">Nível: Especialista</p>
+                <h1 class="text-xl md:text-2xl font-bold text-gray-800 m-0 leading-none">CASO THORNE</h1>
+                <span class="text-[10px] text-gray-600 font-bold uppercase tracking-widest">Procedimento nº 9902-B</span>
             </div>
-            <!-- Botão inserido aqui -->
-            <button class="header-solve-btn" onclick="openModal()">EMITIR MANDADO 👮‍♂️</button>
+            <button class="header-solve-btn" onclick="Game.openSolveModal()">⚖️ JULGAMENTO</button>
         </div>
 
-        <!-- ABAS -->
         <div class="top-tabs-container">
-            <div class="folder-tab active" onclick="openPage(1, this)">RESUMO</div>
-            <div class="folder-tab" onclick="openPage(2, this)">A CENA</div>
-            <div class="folder-tab" onclick="openPage(3, this)">FORENSE</div>
-            <div class="folder-tab" onclick="openPage(4, this)">TIMELINE</div>
-            <div class="folder-tab" onclick="openPage(5, this)">SUSPEITOS</div>
+            <div class="folder-tab active" onclick="Game.switchTab('resumo', this)">Início</div>
+            <div class="folder-tab tab-phone" onclick="Game.switchTab('celular', this)">📱 Celular</div>
+            <div class="folder-tab" onclick="Game.switchTab('suspeitos', this)">Suspeitos</div>
+            <div class="folder-tab" onclick="Game.switchTab('timeline', this)">Timeline</div>
+            <div class="folder-tab" onclick="Game.switchTab('provas', this)">Provas</div>
+            <div class="folder-tab" onclick="Game.switchTab('arquivos', this)">Arquivos</div>
         </div>
 
-        <!-- CONTEÚDO -->
         <div class="notebook-content">
 
-            <!-- 1. RESUMO -->
-            <div id="page-1" class="page-section active">
-                <span class="handwritten text-lg">Relatório Inicial:</span>
-                <p>O corpo de Marcus Thorne (58) foi encontrado em seu escritório. O local estava sem luz (apagão geral) no momento estimado da morte. Sete pessoas estavam na propriedade.</p>
-                <div class="sticky-note">
-                    "Detetive, não se deixe levar pelas aparências. Foque na BIOLOGIA da morte. Quem matou o homem, não o cadáver."
-                </div>
+            <div id="tab-resumo" class="page-section active">
+                <h2>Ocorrência Inicial</h2>
                 <div class="evidence-doc">
-                    <strong>PERFIL DA VÍTIMA:</strong><br>
-                    CEO da Thorne Tech. Cardíaco severo. Personalidade abusiva.<br>
-                    <strong>FATO IMPORTANTE:</strong> Estava mudando o testamento e demitindo funcionários no dia seguinte.
+                    <p class="mb-4"><strong>RELATÓRIO DE CHEGADA - OFICIAL J. MENDES</strong></p>
+                    <p>Encontramos o local em estado de caos controlado. A tempestade lá fora dificultou o acesso da perícia. A energia da residência foi restabelecida manualmente às 20:30, momento em que o corpo do Sr. Thorne foi visualizado na biblioteca principal.</p>
+                    <p>A cena apresenta complexidade elevada. Sete indivíduos sob custódia temporária na sala de estar. Todos apresentam sinais de estresse agudo. O corpo permanece na poltrona. A arma do crime (supostamente um revólver de coleção da própria vítima, embora as digitais ainda precisem de confirmação) estava no tapete.</p>
+                    <p>Ordenei o isolamento. O médico legista preliminar fez anotações confusas sobre a rigidez cadavérica não bater com a temperatura da sala (o ar estava no máximo). Precisamos cruzar os depoimentos urgentemente.</p>
                 </div>
-            </div>
-
-            <!-- 2. A CENA -->
-            <div id="page-2" class="page-section">
-                <span class="handwritten">Evidências Físicas:</span>
                 
                 <div class="polaroid">
-                    <img src="1.jpg" alt="Cena do Crime" onerror="this.src='https://placehold.co/300x200?text=FOTO+1.jpg+AUSENTE'">
-                    <div class="caption">Corpo na poltrona. Camisa branca.</div>
+                    <img src="1.jpg" onerror="this.src='https://placehold.co/300x200/222/fff?text=CENA+DO+CRIME'" alt="Cena">
+                    <div class="caption">Registro 20:35. Poltrona de couro. Iluminação artificial restabelecida.</div>
                 </div>
 
-                <div class="evidence-doc">
-                    <strong>AMBIENTE:</strong><br>
-                    - Ar condicionado travado em 16°C (Muito frio).<br>
-                    - Janela trancada.<br>
-                    - Porta arrombada pela segurança às 20:30.<br>
-                    - Objetos: Revólver .38 no chão (com digitais do sócio). Xícara de chá vazia (com digitais da esposa). Garrafa de Whisky (com digitais do médico).
+                <div class="bg-yellow-100 p-4 border border-yellow-300 transform rotate-1 shadow-md font-['Kalam'] text-sm mt-4">
+                    "A burocracia vai enterrar esse caso se não encontrarmos o elo físico. Esqueça o 'quem queria matar'. Todos queriam. A pergunta é técnica: o que interrompeu as funções vitais primeiro?"
                 </div>
-                <p>O tapete está limpo. O corpo está sentado. Cabeça tombada para trás.</p>
             </div>
 
-            <!-- 3. FORENSE (DIFÍCIL) -->
-            <div id="page-3" class="page-section">
-                <div class="sticky-note" style="background: #ffcccc;">
-                    "Toque nas tarjas cinzas. A chave está nos detalhes microscópicos."
-                </div>
+            <div id="tab-celular" class="page-section" style="padding: 0;">
+                <div class="phone-wrapper">
+                    <div class="phone-screen">
+                        <div class="status-bar">
+                            <span>20:28</span>
+                            <div class="flex gap-2"><span>📶</span><span>🔋 12%</span></div>
+                        </div>
 
-                <div class="evidence-doc">
-                    <strong>RELATÓRIO DE AUTOPSIA</strong><br>
-                    <strong>1. Balística:</strong><br>
-                    Tiro no ventrículo esquerdo. <br>
-                    Análise da Ferida: <span class="hidden-clue" onclick="this.classList.add('revealed')">Bordas pálidas. Ausência de retração. Infiltração hemorrágica INEXISTENTE (0ml de sangue no tórax).</span>
-                    <br><br>
+                        <div id="ph-home" class="app-grid">
+                            <div class="app-icon-btn" onclick="Phone.openApp('whatsapp')">
+                                <div class="app-shape bg-zap">💬</div><div class="app-name">Zap</div>
+                            </div>
+                            <div class="app-icon-btn" onclick="Phone.openApp('calls')">
+                                <div class="app-shape bg-tel">📞</div><div class="app-name">Tel</div>
+                            </div>
+                            <div class="app-icon-btn" onclick="Phone.openApp('gallery')">
+                                <div class="app-shape bg-gal">📷</div><div class="app-name">Fotos</div>
+                            </div>
+                            <div class="app-icon-btn" onclick="Phone.openApp('notes')">
+                                <div class="app-shape bg-not">📝</div><div class="app-name">Notas</div>
+                            </div>
+                        </div>
+
+                        <div id="app-whatsapp" class="app-window">
+                            <div class="app-nav">
+                                <span class="text-blue-500 cursor-pointer" onclick="Phone.closeApp()">◀ Voltar</span>
+                                <span class="font-bold text-white">Conversas</span>
+                                <span></span>
+                            </div>
+                            <div class="app-content" id="whatsapp-list"></div>
+                            <div id="whatsapp-view" class="absolute top-0 left-0 w-full h-full bg-black flex flex-col hidden z-50">
+                                <div class="app-nav">
+                                    <span class="text-blue-500 cursor-pointer" onclick="document.getElementById('whatsapp-view').classList.add('hidden')">◀</span>
+                                    <span id="chat-title" class="font-bold text-white mx-auto">Nome</span>
+                                </div>
+                                <div id="chat-msgs" class="flex-1 p-3 overflow-y-auto flex flex-col gap-2"></div>
+                            </div>
+                        </div>
+
+                        <div id="app-calls" class="app-window">
+                            <div class="app-nav">
+                                <span class="text-blue-500 cursor-pointer" onclick="Phone.closeApp()">◀ Voltar</span>
+                                <span class="font-bold text-white">Recentes</span>
+                                <span></span>
+                            </div>
+                            <div class="app-content" id="calls-list"></div>
+                        </div>
+
+                        <div id="app-gallery" class="app-window">
+                            <div class="app-nav">
+                                <span class="text-blue-500 cursor-pointer" onclick="Phone.closeApp()">◀ Álbuns</span>
+                                <span class="font-bold text-white">Rolo (189)</span>
+                                <span></span>
+                            </div>
+                            <div class="app-content grid grid-cols-3 gap-0.5" id="gallery-grid"></div>
+                        </div>
+
+                        <div id="app-notes" class="app-window">
+                            <div class="app-nav">
+                                <span class="text-yellow-500 cursor-pointer" onclick="Phone.closeApp()">◀ Pastas</span>
+                                <span class="font-bold text-white">Notas</span>
+                                <span></span>
+                            </div>
+                            <div class="app-content p-4 space-y-3" id="notes-list"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-suspeitos" class="page-section">
+                <h2>Depoimentos Colhidos</h2>
+                <div id="suspects-container"></div>
+            </div>
+
+            <div id="tab-timeline" class="page-section">
+                <h2>Cronologia Reconstrutiva</h2>
+                <div class="evidence-doc font-mono text-sm">
+                    <ul class="space-y-4">
+                        <li class="pl-4 border-l-4 border-gray-400">
+                            <strong>19:00 -</strong> Registro de saída do veículo do Dr. Aris na portaria principal. Câmeras confirmam apenas um ocupante.
+                        </li>
+                        <li class="pl-4 border-l-4 border-gray-400">
+                            <strong>19:30 -</strong> Testemunhas (copa) relatam elevação de voz na biblioteca. Identificada voz feminina (Sofia) proferindo ofensas relacionadas a patrimônio.
+                        </li>
+                        <li class="pl-4 border-l-4 border-gray-400">
+                            <strong>19:45 -</strong> Fluxo de serviço: Carla entra com pastas de arquivo. Relata comportamento errático da vítima, descrevendo-o como "aéreo" e com copo de bebida alcoólica em mãos.
+                        </li>
+                        <li class="pl-4 border-l-4 border-gray-400">
+                            <strong>19:50 -</strong> Fluxo de serviço: Elena entra com a bandeja de chá noturno. Permanece no recinto por aproximadamente 3 minutos.
+                        </li>
+                        <li class="pl-4 border-l-4 border-red-800 bg-red-50 py-2">
+                            <strong>19:55 -</strong> Registro de mensagem de voz enviada pelo celular da vítima. O áudio é arrastado e contém reclamações sobre "distorção de cores" e desconforto gástrico severo.
+                        </li>
+                        <li class="pl-4 border-l-4 border-black bg-gray-200 py-2">
+                            <strong>20:00 -</strong> Interrupção total do fornecimento elétrico. Investigação preliminar aponta corte manual nos cabos da caixa de força externa.
+                        </li>
+                        <li class="pl-4 border-l-4 border-black">
+                            <strong>20:12 -</strong> Estampido único de arma de fogo ouvido por múltiplos depoentes em diferentes pontos da propriedade.
+                        </li>
+                        <li class="pl-4 border-l-4 border-black">
+                            <strong>20:30 -</strong> Retorno da energia. Segurança arromba a porta da biblioteca. Óbito constatado visualmente.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="tab-provas" class="page-section">
+                <h2>Laudo Técnico Pericial #4092-ALPHA</h2>
+                <div class="evidence-doc text-xs font-mono leading-relaxed">
+                    <p class="mb-2"><strong>SOLICITANTE:</strong> Delegacia de Homicídios</p>
+                    <p class="mb-4"><strong>OBJETO:</strong> Exame Cadavérico de M. Thorne</p>
                     
-                    <strong>2. Toxicologia (Sangue):</strong><br>
-                    - Álcool: 0.05% (Baixo).<br>
-                    - Cafeína: Traços.<br>
-                    - Digoxina: <span class="hidden-clue" onclick="this.classList.add('revealed')">18.0 ng/mL (Dose Massiva Letal).</span><br>
-                    - Cianeto: Negativo.
-                    <br><br>
+                    <h3 class="font-bold border-b border-gray-400 mb-2 mt-4">1. EXAME TRAUMATOLÓGICO (TÓRAX)</h3>
+                    <p>Orifício de entrada único localizado no hemitórax esquerdo, terceiro espaço intercostal. Zona de tatuagem presente (tiro a curta distância).</p>
+                    <p><strong>Achados Macroscópicos da Ferida:</strong></p>
+                    <ul class="list-disc pl-5 mb-2">
+                        <li>Bordas da lesão: Pálidas, sem reação vital aparente.</li>
+                        <li>Retração tecidual: Mínima/Inexistente.</li>
+                        <li>Infiltração Hemorrágica Perilesional: <strong>NEGATIVO</strong> (Ausência de extravasamento sanguíneo nos tecidos adjacentes ao trajeto).</li>
+                    </ul>
+                    <p>Cavidade Pleural: Presença de fluido sanguíneo residual (< 15ml). Hemotórax massivo não observado.</p>
 
-                    <strong>3. Sintomas Pré-Morte (Testemunhas):</strong><br>
-                    Vítima reclamou de náusea extrema e <span class="highlight">visão amarelada (Xantopsia)</span> às 19:55.
+                    <h3 class="font-bold border-b border-gray-400 mb-2 mt-4">2. ANÁLISE TOXICOLÓGICA (SORO)</h3>
+                    <table class="w-full text-left mt-2 mb-2 border border-collapse border-gray-300">
+                        <tr class="bg-gray-200">
+                            <th class="border p-1">Analito</th>
+                            <th class="border p-1">Concentração</th>
+                            <th class="border p-1">Faixa Terapêutica</th>
+                        </tr>
+                        <tr>
+                            <td class="border p-1">Etanol</td>
+                            <td class="border p-1">0.4 g/L</td>
+                            <td class="border p-1">-</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-1">Digoxina</td>
+                            <td class="border p-1">16.5 ng/mL</td>
+                            <td class="border p-1">0.8 - 2.0 ng/mL</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-1">Cianeto</td>
+                            <td class="border p-1">Não Detectado</td>
+                            <td class="border p-1">-</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
-            <!-- 4. TIMELINE (CONFUSA) -->
-            <div id="page-4" class="page-section">
-                <span class="handwritten">Cronologia da Noite:</span>
-                <ul class="list-disc pl-5 text-sm font-mono space-y-3">
-                    <li><strong>19:00:</strong> Dr. Aris examina Marcus.</li>
-                    <li><strong>19:30:</strong> Sofia (Filha) briga aos gritos com o pai.</li>
-                    <li><strong>19:45:</strong> Carla (Secretária) entra com documentos.</li>
-                    <li><strong>19:50:</strong> Elena (Esposa) leva o chá. Sai às 19:55.</li>
-                    <li><strong>20:00:</strong> <span class="bg-black text-white px-1">APAGÃO GERAL</span>.</li>
-                    <li><strong>20:05:</strong> Bruno (Motorista) é visto correndo no jardim.</li>
-                    <li><strong>20:10:</strong> Victor (Sócio) entra no escuro. <span class="text-red-600 font-bold">DISPARO OUVIDO</span>.</li>
-                    <li><strong>20:15:</strong> Miguel (Rival) é pego pulando o muro.</li>
-                    <li><strong>20:30:</strong> Luz volta. Segurança arromba a porta.</li>
-                </ul>
+            <div id="tab-arquivos" class="page-section">
+                <h2>Caderno de Campo</h2>
+                <div class="polaroid" style="transform: rotate(2deg);">
+                    <p class="font-['Kalam'] p-4 text-left text-sm leading-snug">
+                        "O legista insistiu três vezes na questão do sangue. Ele disse que 'a física não bate com a gravidade'. O corpo estava sentado, mas o fluxo não desceu como deveria após o trauma balístico. Questionar Victor novamente sobre a posição exata do disparo."
+                    </p>
+                </div>
+                <div class="polaroid" style="transform: rotate(-1deg);">
+                    <p class="font-['Kalam'] p-4 text-left text-sm leading-snug">
+                        "O relato das 19:55 é bizarro. Ele disse que as luzes do corredor pareciam 'auréolas divinas e douradas'. A secretária achou que ele estava bêbado, mas o nível de álcool no sangue foi baixo (0.4). O que causa alucinação cromática amarela?"
+                    </p>
+                </div>
+                <div class="polaroid" style="transform: rotate(1deg);">
+                    <p class="font-['Kalam'] p-4 text-left text-sm leading-snug">
+                        "Elena estava calma demais. Ela disse que o chá é uma tradição, mas ela nunca prepara. Hoje ela preparou. Disse que ele estava agitado e não conseguia engolir comprimidos a seco, então ela 'ajudou'."
+                    </p>
+                </div>
             </div>
 
-            <!-- 5. SUSPEITOS (7 PESSOAS) -->
-            <div id="page-5" class="page-section">
-                <span class="handwritten">Lista de Envolvidos:</span>
-
-                <!-- 1. Elena -->
-                <div class="suspect-card">
-                    <img src="2.jpg" class="suspect-img" onerror="this.src='https://placehold.co/80x100?text=2.jpg'">
-                    <div class="suspect-info">
-                        <strong>1. ELENA (Esposa)</strong><br>
-                        <em class="text-xs">Motivo: Seguro de Vida.</em><br>
-                        "Dei o chá às 19:50. Ele estava vivo, mas enjoado. Amassei o remédio dele no chá para ajudar."
-                    </div>
-                </div>
-
-                <!-- 2. Victor -->
-                <div class="suspect-card">
-                    <img src="3.jpg" class="suspect-img" onerror="this.src='https://placehold.co/80x100?text=3.jpg'">
-                    <div class="suspect-info">
-                        <strong>2. VICTOR (Sócio)</strong><br>
-                        <em class="text-xs">Motivo: Fraude descoberta.</em><br>
-                        "Entrei no escuro. Vi o vulto. Atirei por medo. Eu confesso o tiro!"
-                    </div>
-                </div>
-
-                <!-- 3. Sofia -->
-                <div class="suspect-card">
-                    <img src="4.jpg" class="suspect-img" onerror="this.src='https://placehold.co/80x100?text=4.jpg'">
-                    <div class="suspect-info">
-                        <strong>3. SOFIA (Filha)</strong><br>
-                        <em class="text-xs">Motivo: Foi deserdada hoje.</em><br>
-                        "Gritei com ele sim! Disse que queria que ele morresse. Tive um ataque de raiva, mas não toquei nele."
-                    </div>
-                </div>
-
-                <!-- 4. Dr. Aris -->
-                <div class="suspect-card">
-                    <img src="5.jpg" class="suspect-img" onerror="this.src='https://placehold.co/80x100?text=5.jpg'">
-                    <div class="suspect-info">
-                        <strong>4. DR. ARIS (Médico)</strong><br>
-                        <em class="text-xs">Motivo: Erro médico anterior.</em><br>
-                        "Eu prescrevi Digoxina, mas na dose correta! Se ele tomou demais, não é culpa minha."
-                    </div>
-                </div>
-
-                <!-- 5. Bruno -->
-                <div class="suspect-card">
-                    <img src="6.jpg" class="suspect-img" onerror="this.src='https://placehold.co/80x100?text=6.jpg'">
-                    <div class="suspect-info">
-                        <strong>5. BRUNO (Motorista)</strong><br>
-                        <em class="text-xs">Motivo: Dívida de jogo.</em><br>
-                        "Eu estava no jardim verificando o gerador. Não entrei na casa durante o apagão."
-                    </div>
-                </div>
-
-                <!-- 6. Carla -->
-                <div class="suspect-card">
-                    <img src="7.jpg" class="suspect-img" onerror="this.src='https://placehold.co/80x100?text=7.jpg'">
-                    <div class="suspect-info">
-                        <strong>6. CARLA (Secretária)</strong><br>
-                        <em class="text-xs">Motivo: Assédio moral.</em><br>
-                        "Levei os papéis da demissão do Victor. Ele estava bebendo whisky. Saí antes do chá chegar."
-                    </div>
-                </div>
-
-                <!-- 7. Miguel -->
-                <div class="suspect-card">
-                    <img src="8.jpg" class="suspect-img" onerror="this.src='https://placehold.co/80x100?text=8.jpg'">
-                    <div class="suspect-info">
-                        <strong>7. MIGUEL (Rival)</strong><br>
-                        <em class="text-xs">Motivo: Espionagem Industrial.</em><br>
-                        "Cortei a luz para roubar o laptop. Não vi o velho. Só ouvi o tiro e fugi."
-                    </div>
-                </div>
-
-            </div>
-
-        </div> 
+        </div>
     </div>
 
-    <!-- MODAL DE SOLUÇÃO -->
     <div id="solve-modal" class="modal-overlay">
         <div class="modal-paper">
-            <h2 class="text-2xl font-bold text-center border-b-2 border-black pb-2">QUEM É O ASSASSINO?</h2>
-            <p class="text-sm text-center mt-2 mb-4 text-gray-600">Lembre-se: Homicídio requer nexo causal entre a ação e a morte biológica.</p>
-            
-            <div class="grid-suspects">
-                <div class="suspect-option" onclick="select(this, 'elena')">
-                    <img src="2.jpg" onerror="this.src='https://placehold.co/50?text=EL'"><strong>ELENA</strong><br><span class="text-xs">O Chá Envenenado</span>
-                </div>
-                <div class="suspect-option" onclick="select(this, 'victor')">
-                    <img src="3.jpg" onerror="this.src='https://placehold.co/50?text=VI'"><strong>VICTOR</strong><br><span class="text-xs">O Tiro no Escuro</span>
-                </div>
-                <div class="suspect-option" onclick="select(this, 'sofia')">
-                    <img src="4.jpg" onerror="this.src='https://placehold.co/50?text=SO'"><strong>SOFIA</strong><br><span class="text-xs">O Estresse Emocional</span>
-                </div>
-                <div class="suspect-option" onclick="select(this, 'aris')">
-                    <img src="5.jpg" onerror="this.src='https://placehold.co/50?text=DR'"><strong>DR. ARIS</strong><br><span class="text-xs">A Prescrição</span>
-                </div>
-                <div class="suspect-option" onclick="select(this, 'miguel')">
-                    <img src="8.jpg" onerror="this.src='https://placehold.co/50?text=MI'"><strong>MIGUEL</strong><br><span class="text-xs">A Sabotagem da Luz</span>
-                </div>
-                <div class="suspect-option" onclick="select(this, 'outros')">
-                    <div class="h-[50px] flex items-center justify-center bg-gray-200 rounded-full w-[50px] mx-auto text-xl">?</div>
-                    <strong>OUTROS</strong><br><span class="text-xs">Bruno ou Carla</span>
-                </div>
-            </div>
-
-            <button class="modal-btn w-full mt-6" onclick="confirm()">CONFIRMAR</button>
-            <p class="text-center mt-4 underline cursor-pointer text-xs" onclick="closeModal()">Voltar para investigação</p>
+            <h2 class="text-center text-xl font-bold border-b-2 border-black pb-2 text-red-700">MANDADO DE PRISÃO</h2>
+            <p class="text-sm mt-3 text-justify leading-tight">A lei exige precisão. Não buscamos quem <em>tentou</em> matar, nem quem <em>queria</em> matar. Buscamos a causalidade biológica imediata que cessou a vida de Marcus Thorne.</p>
+            <div id="modal-suspects" class="suspect-grid-select"></div>
+            <button class="w-full bg-red-800 text-white font-bold py-3 mt-5 hover:bg-red-900 transition" onclick="Game.submit()">EMITIR SENTENÇA</button>
+            <p class="text-center text-xs mt-3 underline cursor-pointer" onclick="document.getElementById('solve-modal').style.display='none'">Cancelar</p>
         </div>
     </div>
 
     <script>
-        let choice = null;
+        // --- DADOS REESCRITOS (DIFICULDADE MÁXIMA) ---
+        const DATA = {
+            suspects: [
+                {
+                    id: 'elena', name: 'Elena Thorne', role: 'Esposa', img: '2.jpg', 
+                    txt: '"Vocês acham que é fácil viver 20 anos com um homem que te trata como mobília? Eu levei o chá sim. Camomila e mel, como ele gosta quando está estressado. Ele estava reclamando do coração, da palpitação, do sócio... eu só queria que ele calasse a boca. Ele pediu os remédios, mas estava tremendo tanto que derrubava tudo. Eu disse \'deixa que eu ajudo\'. Triturei o comprimido na colher e misturei no chá quente pra ele beber de uma vez. Foi um ato de misericórdia, detetive. Depois fui pro quarto e tranquei a porta."'
+                },
+                {
+                    id: 'victor', name: 'Victor Vance', role: 'Sócio', img: '3.jpg', 
+                    txt: '"Eu não tenho nada a esconder, já disse! Eu estava desesperado. A auditoria ia sair na manhã seguinte. Minha vida ia acabar. Quando a luz caiu, eu vi a oportunidade. Entrei tateando. Vi a silhueta dele na poltrona, imóvel, me julgando no escuro. O medo tomou conta. Eu saquei o .38 que carrego e disparei contra o peito dele. Vi o clarão do tiro, senti o recuo. Eu o matei para não ser destruído. Podem me algemar, eu confesso o disparo."'
+                },
+                {
+                    id: 'sofia', name: 'Sofia Thorne', role: 'Filha', img: '4.jpg', 
+                    txt: '"Ele me chamou de parasita. Disse que ia doar tudo para aquela fundação ridícula só para não deixar um centavo pra mim. Gritei mesmo. Disse que esperava que ele infartasse naquela cadeira. Saí batendo a porta. Fui pro jardim fumar e tentar me acalmar. Estava com fones de cancelamento de ruído, ouvindo metal no máximo. Não ouvi tiro, não ouvi nada. Só vi a movimentação quando a luz voltou."'
+                },
+                {
+                    id: 'aris', name: 'Dr. Aris', role: 'Médico', img: '5.jpg', 
+                    txt: '"Minha conduta é impecável. O paciente é que era difícil. Ele tinha insuficiência cardíaca crônica e eu prescrevi o protocolo padrão de digitálicos para controle de ritmo. Se o nível no sangue está alto, ele deve ter se automedicado ou confundido a posologia. Eu saí da casa às 19:00 e tenho registros de GPS do meu carro provando que estava a quilômetros daqui na hora do tiro."'
+                },
+                {
+                    id: 'bruno', name: 'Bruno', role: 'Motorista', img: '6.jpg', 
+                    txt: '"Eu sou pago pra dirigir e calar a boca. Mas quando a luz pifou, fui ver o gerador. Alguém tinha passado a faca nos cabos. Coisa de profissional, ou de alguém com muita raiva. Enquanto eu tentava emendar os fios no escuro, vi o Sr. Victor passando correndo pela porta lateral da casa, segurando algo que brilhava. Parecia ferro. Não quis me meter."'
+                },
+                {
+                    id: 'carla', name: 'Carla', role: 'Secretária', img: '7.jpg', 
+                    txt: '"Era impossível trabalhar com ele hoje. Ele estava paranoico. Assinei os papéis que ele mandou e servi mais whisky. Ele reclamou que o gosto estava estranho, que a luz estava amarela demais, parecia delirar. Ele mal conseguia focar os olhos em mim. Saí o mais rápido que pude pra cozinha. Quando a luz caiu, fiquei lá com as cozinheiras."'
+                },
+                {
+                    id: 'miguel', name: 'Miguel', role: 'Rival', img: '8.jpg', 
+                    txt: '"Espionagem industrial não é homicídio. Eu precisava daquele laptop. Sabia que ele guardava as senhas num post-it, velho idiota. Cortei a luz pra desativar as câmeras e o alarme. Quando pulei a janela do corredor, ouvi o estouro na biblioteca. Gelei. Não sou assassino de aluguel, sou empresário. Dei meia volta e tentei sair pelo muro, mas os seguranças me pegaram."'
+                }
+            ],
+            chats: [
+                {id: 'elena', name: 'Elena', msgs: [
+                    {s:0, t:'18:15', m:'Ele está impossível hoje.'}, 
+                    {s:1, t:'18:20', m:'Aguente firme. O plano segue?'}, 
+                    {s:0, t:'19:42', m:'Vou levar o chá agora. Ele precisa se acalmar de qualquer jeito.'},
+                    {s:0, t:'19:55', m:'Ele tomou tudo. Reclamou do gosto, mas tomou.'}
+                ]},
+                {id: 'victor', name: 'Victor', msgs: [
+                    {s:1, t:'17:30', m:'Os auditores chegam às 8:00 amanhã.'}, 
+                    {s:0, t:'17:32', m:'Eu sei! Pare de me pressionar.'}, 
+                    {s:0, t:'20:02', m:'Escuridão total aqui. É um sinal.'},
+                    {s:0, t:'20:14', m:'Resolvi o problema. Não haverá auditoria.'}
+                ]},
+                {id: 'sofia', name: 'Sofia', msgs: [
+                    {s:0, t:'19:33', m:'Aquele velho maldito me deserdou!'}, 
+                    {s:1, t:'19:34', m:'O que você vai fazer?'}, 
+                    {s:0, t:'19:35', m:'Queria que ele morresse engasgado com aquele whisky barato.'}
+                ]}
+            ],
+            calls: [
+                {n: 'Dr. Aris', t: '18:45', s: 'Recebida (45s) - "Aumente a dose se necessário"'},
+                {n: 'Advogado', t: '16:00', s: 'Efetuada (55m) - "Alteração testamentária"'},
+                {n: 'Victor', t: '19:58', s: 'Perdida - (Sem resposta)'}
+            ],
+            notes: [
+                {t: 'Sintomas Recentes', b: 'Registro pessoal:\n- Náusea persistente.\n- Confusão mental.\n- HOJE: Perturbação visual severa. Halos dourados em volta das lâmpadas. Tudo parece ter um filtro amarelo. Preciso ligar pro Aris.'},
+                {t: 'Pendências', b: '1. Demitir Victor (desfalque confirmado).\n2. Alterar testamento (excluir Sofia, incluir Fundação).\n3. Pedir divórcio (Elena está insuportável).'}
+            ]
+        };
 
-        function openPage(n, tab) {
-            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
-            document.getElementById('page-'+n).classList.add('active');
-            document.querySelectorAll('.folder-tab').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            document.querySelector('.notebook-content').scrollTop = 0;
-        }
+        const Game = {
+            selSuspect: null,
 
-        function openModal() { document.getElementById('solve-modal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('solve-modal').style.display = 'none'; }
+            init: function() {
+                const container = document.getElementById('suspects-container');
+                const modal = document.getElementById('modal-suspects');
+                
+                DATA.suspects.forEach(s => {
+                    const div = document.createElement('div');
+                    div.className = 'suspect-card';
+                    div.innerHTML = `
+                        <div class="suspect-header" onclick="this.nextElementSibling.classList.toggle('open'); Game.saveData('seen_${s.id}', true)">
+                            <img src="${s.img}" class="suspect-thumb" onerror="this.src='https://placehold.co/60'">
+                            <div>
+                                <h3 class="font-bold uppercase m-0">${s.name}</h3>
+                                <span class="text-xs text-gray-500">${s.role}</span>
+                            </div>
+                        </div>
+                        <div class="suspect-body">
+                            <p class="italic text-gray-700 font-serif border-l-4 border-gray-400 pl-3 leading-relaxed">${s.txt}</p>
+                        </div>
+                    `;
+                    container.appendChild(div);
 
-        function select(el, id) {
-            document.querySelectorAll('.suspect-option').forEach(o => o.classList.remove('selected'));
-            el.classList.add('selected');
-            choice = id;
-        }
+                    const opt = document.createElement('div');
+                    opt.className = 's-option';
+                    opt.onclick = () => {
+                        document.querySelectorAll('.s-option').forEach(x => x.classList.remove('selected'));
+                        opt.classList.add('selected');
+                        Game.selSuspect = s.id;
+                    };
+                    opt.innerHTML = `<img src="${s.img}" onerror="this.src='https://placehold.co/60'"><br><strong>${s.name}</strong>`;
+                    modal.appendChild(opt);
+                });
 
-        function confirm() {
-            if(!choice) return alert("Escolha um suspeito.");
-            const content = document.querySelector('.modal-paper');
-            
-            if (choice === 'victor') {
-                content.innerHTML = `
-                    <h2 class="text-red-600 font-bold text-2xl text-center">ERRO JUDICIAL</h2>
-                    <p class="mt-4"><strong>Victor atirou em um cadáver.</strong></p>
-                    <p class="text-sm mt-2">A autópsia (Aba 3) revelou "Ausência de infiltração hemorrágica". Corações que batem sangram quando perfurados. Se não sangrou, o coração já estava parado às 20:10 quando ele atirou. Crime Impossível de Homicídio.</p>
-                    <button class="modal-btn w-full mt-4" onclick="location.reload()">Tentar Novamente</button>`;
-            } else if (choice === 'elena') {
-                content.innerHTML = `
-                    <h2 class="text-green-600 font-bold text-2xl text-center">CASO SOLUCIONADO</h2>
-                    <p class="mt-4"><strong>Elena é a assassina.</strong></p>
-                    <div class="bg-green-100 p-4 mt-2 text-sm border border-green-500">
-                        <strong>PROVAS:</strong><br>
-                        1. <strong>O Remédio:</strong> Ela administrou o chá às 19:50. A toxicologia mostrou 18ng/mL de Digoxina (Dose Letal).<br>
-                        2. <strong>Os Sintomas:</strong> Às 19:55, a vítima viu "tudo amarelo" (Xantopsia), sintoma exclusivo de intoxicação digitálica.<br>
-                        3. <strong>A Morte:</strong> O coração parou ≈20:00.<br>
-                        4. <strong>O Tiro:</strong> Victor atirou às 20:10 num corpo já morto (provado pela falta de sangue na ferida).<br>
-                    </div>
-                    <button class="modal-btn w-full mt-4 bg-gray-800" onclick="location.reload()">Jogar Novamente</button>`;
-            } else {
-                content.innerHTML = `
-                    <h2 class="text-red-600 font-bold text-2xl text-center">INCORRETO</h2>
-                    <p class="mt-4">Não há provas materiais suficientes que liguem este suspeito à morte biológica imediata.</p>
-                    <button class="modal-btn w-full mt-4" onclick="location.reload()">Tentar Novamente</button>`;
+                const lastTab = localStorage.getItem('thorne_case_data_tab');
+                if(lastTab) {
+                    const tabEl = document.querySelector(`.folder-tab[onclick*="${lastTab}"]`);
+                    if(tabEl) Game.switchTab(lastTab, tabEl);
+                }
+                
+                Phone.init();
+            },
+
+            switchTab: function(id, el) {
+                document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+                document.getElementById('tab-'+id).classList.add('active');
+                document.querySelectorAll('.folder-tab').forEach(t => t.classList.remove('active'));
+                el.classList.add('active');
+                localStorage.setItem('thorne_case_data_tab', id);
+            },
+
+            saveData: function(key, val) {
+                localStorage.setItem('thorne_case_data_'+key, val);
+            },
+
+            openSolveModal: function() {
+                document.getElementById('solve-modal').style.display = 'flex';
+            },
+
+            submit: function() {
+                if(!Game.selSuspect) return alert("Selecione um suspeito.");
+                const p = document.querySelector('.modal-paper');
+                
+                if(Game.selSuspect === 'elena') {
+                    p.innerHTML = `
+                        <h2 class="text-green-600 text-center font-bold text-xl">CASO ENCERRADO</h2>
+                        <p class="mt-4 text-sm font-bold">Elena Thorne é a culpada.</p>
+                        <div class="text-xs mt-3 bg-gray-100 p-3 border border-gray-300 text-justify">
+                            <p class="mb-2"><strong>A Lógica Forense:</strong></p>
+                            <p>1. A vítima relatou <strong>Xantopsia</strong> (visão amarela) às 19:55. Este é o sintoma patognomônico de intoxicação digitálica severa.</p>
+                            <p>2. Elena admitiu ter preparado e "triturado o remédio" no chá servido minutos antes.</p>
+                            <p>3. A concentração de 16.5ng/mL (8x a dose terapêutica) causou parada cardíaca pouco antes das 20:00.</p>
+                            <p>4. Quando Victor atirou às 20:12, o sangue já não circulava (provado pela ausência de infiltração hemorrágica na ferida).</p>
+                        </div>
+                        <button class="w-full bg-gray-800 text-white p-3 mt-4" onclick="location.reload()">Reiniciar Investigação</button>
+                    `;
+                } else if(Game.selSuspect === 'victor') {
+                    p.innerHTML = `
+                        <h2 class="text-red-600 text-center font-bold text-xl">ERRO JURÍDICO</h2>
+                        <p class="mt-4 text-sm text-justify">Você condenou Victor com base na confissão dele. Ele <em>acredita</em> que matou.</p>
+                        <p class="mt-3 text-sm font-bold text-red-800">MAS A PROVA TÉCNICA DIZ O CONTRÁRIO.</p>
+                        <p class="mt-2 text-xs text-justify">O laudo aponta "Ausência de infiltração hemorrágica". Feridas feitas em corpos vivos sangram para dentro dos tecidos (infiltração) devido à pressão arterial. Se não houve infiltração, o coração já estava parado quando a bala entrou.</p>
+                        <p class="mt-2 text-xs">Victor cometeu crime de Vilipêndio de Cadáver e Tentativa de Homicídio (Crime Impossível), mas não é o assassino.</p>
+                        <button class="w-full bg-gray-800 text-white p-3 mt-4" onclick="location.reload()">Tentar Novamente</button>
+                    `;
+                } else {
+                    p.innerHTML = `
+                        <h2 class="text-red-600 text-center font-bold text-xl">ACUSAÇÃO SEM BASE</h2>
+                        <p class="mt-4 text-sm text-justify">O suspeito escolhido tinha motivo e oportunidade, mas as evidências forenses (toxicologia e análise da ferida) não o conectam diretamente à <em>causa mortis</em> biológica.</p>
+                        <button class="w-full bg-gray-800 text-white p-3 mt-4" onclick="location.reload()">Tentar Novamente</button>
+                    `;
+                }
             }
-        }
+        };
+
+        const Phone = {
+            init: function() {
+                const cl = document.getElementById('whatsapp-list');
+                DATA.chats.forEach(c => {
+                    const d = document.createElement('div');
+                    d.className = 'chat-row';
+                    d.onclick = () => Phone.openChat(c);
+                    d.innerHTML = `
+                        <div class="avatar"></div>
+                        <div class="flex-1 overflow-hidden">
+                            <div class="flex justify-between"><strong class="text-white text-sm">${c.name}</strong><span class="text-xs text-gray-500">Ontem</span></div>
+                            <div class="text-gray-400 text-xs truncate">${c.msgs[c.msgs.length-1].m}</div>
+                        </div>
+                    `;
+                    cl.appendChild(d);
+                });
+                const cal = document.getElementById('calls-list');
+                DATA.calls.forEach(c => {
+                    cal.innerHTML += `
+                        <div class="chat-row items-center">
+                            <div class="text-xl w-8 text-center">${c.s.includes('Perdida') ? '❌' : '📞'}</div>
+                            <div class="flex-1">
+                                <strong class="${c.s.includes('Perdida') ? 'text-red-500' : 'text-white'} text-sm">${c.n}</strong>
+                                <div class="text-xs text-gray-500">${c.s} • ${c.t}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                const nl = document.getElementById('notes-list');
+                DATA.notes.forEach(n => {
+                    nl.innerHTML += `<div class="bg-gray-800 p-3 rounded-lg"><strong class="text-yellow-500 text-sm block mb-1">${n.t}</strong><p class="text-xs text-gray-300 whitespace-pre-line">${n.b}</p></div>`;
+                });
+                const gl = document.getElementById('gallery-grid');
+                for(let i=0; i<12; i++) {
+                    gl.innerHTML += `<div style="background: #333; height: 80px; border: 1px solid black;"></div>`;
+                }
+            },
+            openApp: function(id) {
+                document.getElementById('app-'+id).classList.add('active');
+            },
+            closeApp: function() {
+                document.querySelectorAll('.app-window').forEach(x => x.classList.remove('active'));
+                document.getElementById('whatsapp-view').classList.add('hidden');
+            },
+            openChat: function(chat) {
+                document.getElementById('whatsapp-view').classList.remove('hidden');
+                document.getElementById('chat-title').innerText = chat.name;
+                const area = document.getElementById('chat-msgs');
+                area.innerHTML = '';
+                chat.msgs.forEach(m => {
+                    area.innerHTML += `<div class="msg-bubble ${m.s===0?'sent':'received'}">${m.m}<br><span class="text-[9px] opacity-50">${m.t}</span></div>`;
+                });
+            }
+        };
+
+        Game.init();
     </script>
 </body>
 </html>
