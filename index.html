@@ -3,18 +3,14 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Caso Thorne: Arquivo Morto</title>
+    <title>Caso Thorne: Arquivo Morto - Edição Completa</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Kalam:wght@300;400;700&family=Special+Elite&family=Roboto+Condensed:wght@300;400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --paper-bg: #fdfbf7;
-            --line-color: #a4b0be;
-            --margin-line: #ff7675;
-            --ink-blue: #2c3e50;
             --bg-dark: #1e1e1e;
             --phone-bg: #121212;
-            --phone-accent: #0a84ff;
             --phone-bubble-in: #262628;
             --phone-bubble-out: #0a84ff;
         }
@@ -78,8 +74,6 @@
             background: #2f3640; padding: 0; display: flex;
             overflow-x: auto; scrollbar-width: none; flex-shrink: 0;
         }
-        .top-tabs-container::-webkit-scrollbar { display: none; }
-
         .folder-tab {
             background: #57606f; color: #dcdde1;
             padding: 12px 18px;
@@ -100,102 +94,93 @@
             background-image: linear-gradient(rgba(164, 176, 190, 0.3) 1px, transparent 1px);
             background-size: 100% 1.8rem; line-height: 1.8rem;
             padding: 20px 15px 40px 15px;
-        }
-        @media(min-width: 768px) { .notebook-content { overflow-y: auto; } }
-
-        .notebook-content::before {
-            content: ''; position: absolute; top: 0; bottom: 0; left: 30px;
-            width: 2px; background-color: rgba(255, 118, 117, 0.5);
-            pointer-events: none; z-index: 0;
+            overflow-y: auto;
         }
 
-        .page-section { display: none; animation: fadeIn 0.3s; max-width: 800px; margin: 0 auto; padding-left: 20px; position: relative; z-index: 1; }
+        .page-section { display: none; animation: fadeIn 0.3s; max-width: 100%; margin: 0 auto; position: relative; z-index: 1; }
         .page-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* MURAL STYLES */
+        .mural-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            background-color: #d1bfa7;
+            background-image: url("https://www.transparenttextures.com/patterns/cork-board.png");
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+            border: 8px solid #5d4037;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .mural-center-pic {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%) rotate(2deg);
+            width: 140px; height: auto; border: 4px solid #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5); z-index: 5;
+        }
+        .mural-suspect-pic {
+            position: absolute; width: 80px; height: 90px;
+            object-fit: cover; border: 3px solid #fff;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.4); cursor: pointer;
+            transition: transform 0.2s; background: #fff; z-index: 4;
+        }
+        .mural-suspect-pic:hover { transform: scale(1.1); z-index: 10; }
+        .mural-label {
+            position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
+            background: #fff; padding: 2px 5px; font-size: 9px; font-family: 'Courier Prime';
+            box-shadow: 1px 1px 2px rgba(0,0,0,0.3); white-space: nowrap;
+        }
+        .red-string-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+        .string-line { stroke: #c0392b; stroke-width: 2px; opacity: 0.8; stroke-dasharray: 1200; stroke-dashoffset: 0; filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3)); }
+
         h2 { font-family: 'Special Elite', cursive; border-bottom: 2px solid #2f3640; display: inline-block; margin-bottom: 20px; margin-top: 10px; font-size: 1.4rem; }
-
-        .evidence-doc {
-            background: #fff; border: 1px solid #dcdde1;
-            padding: 20px; margin-bottom: 25px;
-            font-family: 'Roboto Condensed', sans-serif; font-size: 0.95rem;
-            line-height: 1.6; box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
-        }
-
-        .polaroid {
-            background: white; padding: 10px 10px 45px 10px;
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
-            transform: rotate(-1deg); margin: 25px auto;
-            max-width: 100%; width: 280px;
-            border: 1px solid #eee; text-align: center;
-        }
-        .polaroid img { width: 100%; height: auto; filter: grayscale(20%) contrast(1.1); }
-        .caption { font-family: 'Kalam', cursive; font-size: 0.9rem; color: #555; margin-top: 10px; line-height: 1.1; }
-
-        .suspect-card {
-            background: #fdfdfd; border: 1px solid #95a5a6;
-            margin-bottom: 20px; padding: 0;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
-        }
-        .suspect-header {
-            padding: 12px; background: #ecf0f1; border-bottom: 1px solid #bdc3c7;
-            display: flex; gap: 15px; align-items: center; cursor: pointer;
-        }
-        .suspect-thumb { width: 60px; height: 75px; object-fit: cover; filter: sepia(0.3); border: 1px solid #7f8fa6; }
-        .suspect-body { padding: 15px; font-size: 0.9rem; display: none; }
+        .evidence-doc { background: #fff; border: 1px solid #dcdde1; padding: 20px; margin-bottom: 25px; font-family: 'Roboto Condensed', sans-serif; font-size: 0.95rem; line-height: 1.6; box-shadow: 3px 3px 0 rgba(0,0,0,0.1); }
+        .suspect-card { background: #fdfdfd; border: 1px solid #95a5a6; margin-bottom: 25px; padding: 0; box-shadow: 2px 2px 5px rgba(0,0,0,0.05); }
+        .suspect-header { padding: 15px; background: #ecf0f1; border-bottom: 1px solid #bdc3c7; display: flex; gap: 15px; align-items: center; cursor: pointer; transition: background 0.2s; }
+        .suspect-header:hover { background: #dfe4ea; }
+        .suspect-thumb { width: 70px; height: 70px; object-fit: cover; filter: sepia(0.3); border: 1px solid #7f8fa6; border-radius: 50%; }
+        .suspect-body { padding: 20px; font-size: 0.9rem; display: none; border-top: 1px solid #ccc; }
         .suspect-body.open { display: block; }
+        .ficha-section { border-left: 4px solid #2c3e50; padding: 10px 15px; margin-bottom: 15px; background:#f4f6f7; }
+        .ficha-title { font-weight:700; text-transform:uppercase; margin-bottom:8px; font-family: 'Roboto Condensed', sans-serif; letter-spacing: 0.5px; color: #2c3e50; border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+        .ficha-content { text-align: justify; line-height: 1.5; white-space: pre-wrap; font-family: 'Courier Prime', monospace; font-size: 0.85rem; }
 
-        .ficha-section { border-left: 3px solid #dcdde1; padding: 10px 12px; margin-bottom: 8px; background:#fffdf7; }
-        .ficha-title { font-weight:700; margin-bottom:6px; font-family: 'Roboto Condensed', sans-serif; }
-        .ficha-toggle { cursor:pointer; color:#2f3640; text-decoration:underline; font-size:13px; margin-bottom:6px; display:inline-block; }
-
-        .phone-wrapper {
-            background: #000; border-radius: 25px; border: 6px solid #1a1a1a;
-            max-width: 380px; width: 100%; height: 650px; margin: 0 auto;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.6); position: relative; overflow: hidden;
-            font-family: 'Inter', sans-serif; line-height: normal; color: #fff;
-        }
-
+        /* CELULAR UI */
+        .phone-wrapper { background: #000; border-radius: 25px; border: 6px solid #1a1a1a; max-width: 380px; width: 100%; height: 650px; margin: 0 auto; box-shadow: 0 10px 25px rgba(0,0,0,0.6); position: relative; overflow: hidden; font-family: 'Inter', sans-serif; line-height: normal; color: #fff; }
         .phone-screen { background: var(--phone-bg); width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+        #phone-selector-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; overflow-y: auto; height: 100%; align-content: start; }
+        .phone-select-btn { background: #1c1c1e; border-radius: 12px; padding: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; border: 1px solid #333; }
+        .phone-select-btn:hover { background: #2c2c2e; border-color: #0a84ff; }
+        .phone-select-btn img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-bottom: 8px; }
         .status-bar { padding: 8px 15px; background: rgba(255,255,255,0.02); display:flex; justify-content:space-between; font-size:0.7rem; color:#888; }
-        .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 20px; align-content: start; flex: 1; }
+        .app-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 40px 20px; align-content: start; flex: 1; }
         .app-icon-btn { display:flex; flex-direction:column; align-items:center; cursor:pointer; transition: transform 0.1s; }
         .app-icon-btn:active { transform: scale(0.95); }
-        .app-shape { width:52px; height:52px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.6rem; margin-bottom:5px; }
-        .app-name { font-size:0.7rem; color:#fff; text-align:center; }
-
+        .app-shape { width:60px; height:60px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.8rem; margin-bottom:8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .app-name { font-size:0.75rem; color:#fff; text-align:center; }
         .bg-zap { background: linear-gradient(135deg, #25D366, #128C7E); }
         .bg-tel { background: linear-gradient(135deg, #34C759, #30B34E); }
-        .bg-gal { background: linear-gradient(135deg, #5856D6, #3634A3); }
         .bg-not { background: linear-gradient(135deg, #FF9500, #E08600); }
-
         .app-window { position:absolute; top:0; left:0; width:100%; height:100%; background:#000; z-index:20; display:none; flex-direction:column; }
         .app-window.active { display:flex; animation: slideUp 0.2s ease-out; }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
         .app-nav { padding: 12px; background: rgba(28, 28, 30, 0.95); border-bottom: 1px solid #333; display:flex; align-items:center; justify-content:space-between; z-index:30; }
         .app-content { flex:1; overflow-y:auto; padding:0; background:#000; }
-
         .chat-row { display:flex; gap:10px; padding:12px; border-bottom: 1px solid #1c1c1e; cursor:pointer; transition: background 0.2s; }
         .chat-row:hover { background:#1c1c1e; }
-        .avatar { width:45px; height:45px; border-radius:50%; background:#333; flex-shrink:0; }
-
+        .avatar { width:45px; height:45px; border-radius:50%; background:#333; flex-shrink:0; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
         .msg-bubble { max-width:80%; padding:8px 12px; border-radius:16px; margin-bottom:8px; font-size:0.85rem; line-height:1.3; }
         .sent { align-self:flex-end; background:var(--phone-bubble-out); color:white; border-bottom-right-radius:2px; }
         .received { align-self:flex-start; background:var(--phone-bubble-in); color:#fff; border-bottom-left-radius:2px; }
 
         .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); z-index:100; justify-content:center; align-items:center; padding:20px; }
         .modal-paper { background:#f5f6fa; padding:25px; width:100%; max-width:650px; border:4px solid #2f3640; max-height:90vh; overflow-y:auto; font-family: 'Courier Prime', monospace; }
-
         .suspect-grid-select { display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-top:15px; }
         .s-option { background:white; border:2px solid #ccc; padding:10px; text-align:center; cursor:pointer; transition:0.2s; }
         .s-option.selected { border-color:#c23616; background:#ffcccc; }
         .s-option img { width:70px; height:70px; border-radius:50%; margin-bottom:5px; object-fit:cover; }
-
-        /* small responsiveness tweaks */
-        @media(max-width:600px) {
-            .suspect-grid-select { grid-template-columns: repeat(2,1fr); }
-        }
+        @media(max-width:600px) { .suspect-grid-select { grid-template-columns: repeat(2,1fr); } }
     </style>
 </head>
 <body>
@@ -205,71 +190,87 @@
         <div class="notebook-header">
             <div>
                 <h1 class="text-xl md:text-2xl font-bold text-gray-800 m-0 leading-none">CASO THORNE</h1>
-                <span class="text-[10px] text-gray-600 font-bold uppercase tracking-widest">Procedimento nº 9902-B</span>
+                <span class="text-[10px] text-gray-600 font-bold uppercase tracking-widest">Procedimento Forense Digital</span>
             </div>
             <button class="header-solve-btn" onclick="Game.openSolveModal()">⚖️ JULGAMENTO</button>
         </div>
 
         <div class="top-tabs-container">
-            <div class="folder-tab active" onclick="Game.switchTab('resumo', this)">Início</div>
-            <div class="folder-tab tab-phone" onclick="Game.switchTab('celular', this)">📱 Celular</div>
-            <div class="folder-tab" onclick="Game.switchTab('suspeitos', this)">Suspeitos</div>
+            <div class="folder-tab active" onclick="Game.switchTab('mural', this)">🕵️ MURAL</div>
+            <div class="folder-tab" onclick="Game.switchTab('resumo', this)">Início</div>
+            <div class="folder-tab tab-phone" onclick="Game.switchTab('celular', this)">📱 APREENSÕES</div>
+            <div class="folder-tab" onclick="Game.switchTab('suspeitos', this)">Depoimentos</div>
             <div class="folder-tab" onclick="Game.switchTab('timeline', this)">Timeline</div>
             <div class="folder-tab" onclick="Game.switchTab('provas', this)">Provas</div>
-            <div class="folder-tab" onclick="Game.switchTab('arquivos', this)">Arquivos</div>
         </div>
 
         <div class="notebook-content">
-            <div id="tab-resumo" class="page-section active">
-                <h2>Ocorrência Inicial</h2>
+            
+            <div id="tab-mural" class="page-section active">
+                <div class="mural-container" id="mural-board">
+                    <svg class="red-string-svg" id="mural-svg"></svg>
+                    <div class="mural-center-pic">
+                        <img src="1.jpg" onerror="this.src='https://placehold.co/300x200?text=VITIMA'" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="bg-black text-white text-xs text-center p-1">VÍTIMA</div>
+                    </div>
+                </div>
+                <div class="text-center italic text-sm text-gray-600 mt-2 bg-yellow-100 p-2 border border-yellow-300 transform rotate-1">
+                    "Todas as pessoas nesta casa afirmam amá-lo ou servi-lo. Um deles o matou."
+                </div>
+            </div>
+
+            <div id="tab-resumo" class="page-section">
+                <h2>Cena do Crime</h2>
                 <div class="evidence-doc">
-                    <p class="mb-4"><strong>RELATÓRIO DE CHEGADA - OFICIAL J. MENDES</strong></p>
-                    <p>Encontramos o local em estado de caos controlado. A tempestade lá fora dificultou o acesso da perícia. A energia da residência foi restabelecida manualmente às 20:30, momento em que o corpo do Sr. Thorne foi visualizado na biblioteca principal.</p>
-                    <p>A cena apresenta complexidade elevada. Sete indivíduos sob custódia temporária na sala de estar. Todos apresentam sinais de estresse agudo. O corpo permanece na poltrona. A arma do crime (supostamente um revólver de coleção da própria vítima, embora as digitais ainda precisem de confirmação) estava no tapete.</p>
-                    <p>Ordenei o isolamento. O médico legista preliminar fez anotações confusas sobre a rigidez cadavérica não bater com a temperatura da sala (o ar estava no máximo). Precisamos cruzar os depoimentos urgentemente.</p>
-                </div>
-
-                <div class="polaroid">
-                    <img src="1.jpg" onerror="this.src='https://placehold.co/300x200/222/fff?text=CENA+DO+CRIME'" alt="Cena">
-                    <div class="caption">Registro 20:35. Poltrona de couro. Iluminação artificial restabelecida.</div>
-                </div>
-
-                <div class="bg-yellow-100 p-4 border border-yellow-300 transform rotate-1 shadow-md font-['Kalam'] text-sm mt-4">
-                    "A burocracia vai enterrar esse caso se não encontrarmos o elo físico. Esqueça o 'quem queria matar'. Todos queriam. A pergunta é técnica: o que interrompeu as funções vitais primeiro?"
+                    <p><strong>RELATÓRIO DE OCORRÊNCIA #9902</strong></p>
+                    <p>Marcus Thorne (62), magnata da indústria farmacêutica, foi encontrado sem vida em sua biblioteca pessoal às 20:30, logo após o restabelecimento da energia elétrica, que havia sido cortada cerca de 30 minutos antes.</p>
+                    <p>A atmosfera na casa é de pesar e confusão. Todos os sete suspeitos permanecem no local. Ordenei a apreensão imediata de todos os dispositivos móveis. As conversas parecem normais à primeira vista, repletas de dramas familiares e profissionais, mas a ordem é clara: <strong>encontre a inconsistência que revela o assassino.</strong></p>
+                    <p class="mt-4 p-3 bg-red-50 border-l-4 border-red-800 text-sm"><strong>NOTA DO LEGISTA:</strong> "Não se deixe levar pelo óbvio. O buraco de bala no peito é evidente, mas meu exame preliminar do sangue mostra algo muito mais complexo e silencioso. O tempo da morte biológica não bate com o tempo do disparo."</p>
                 </div>
             </div>
 
             <div id="tab-celular" class="page-section" style="padding: 0;">
                 <div class="phone-wrapper">
-                    <div class="phone-screen">
-                        <div class="status-bar">
-                            <span>20:28</span>
-                            <div class="flex gap-2"><span>📶</span><span>🔋 12%</span></div>
+                    <div id="phone-home-screen" class="phone-screen">
+                        <div class="status-bar"><span>20:30</span><span>PERÍCIA DIGITAL</span></div>
+                        <div class="p-4 text-center">
+                            <h3 class="text-white text-lg font-bold mb-1">Dispositivos Apreendidos</h3>
+                            <p class="text-gray-500 text-xs">Selecione um dispositivo.</p>
                         </div>
+                        <div id="phone-selector-grid"></div>
+                    </div>
 
-                        <div id="ph-home" class="app-grid">
+                    <div id="phone-inner-screen" class="phone-screen hidden">
+                        <div class="status-bar">
+                            <span id="ph-clock">20:30</span>
+                            <div class="flex gap-2"><span>📶 4G</span><span id="ph-battery">🔋 100%</span></div>
+                        </div>
+                        <div class="mt-8 text-center">
+                            <div id="ph-owner-avatar" class="w-20 h-20 bg-gray-700 rounded-full mx-auto mb-2 overflow-hidden border-2 border-white"></div>
+                            <h2 id="ph-owner-name" class="text-white text-xl font-bold">Suspeito</h2>
+                            <p class="text-gray-500 text-xs uppercase tracking-widest">Extração de Dados</p>
+                        </div>
+                        <div class="app-grid">
                             <div class="app-icon-btn" onclick="Phone.openApp('whatsapp')">
-                                <div class="app-shape bg-zap">💬</div><div class="app-name">Zap</div>
+                                <div class="app-shape bg-zap">💬</div><div class="app-name">Msgs</div>
                             </div>
                             <div class="app-icon-btn" onclick="Phone.openApp('calls')">
-                                <div class="app-shape bg-tel">📞</div><div class="app-name">Tel</div>
-                            </div>
-                            <div class="app-icon-btn" onclick="Phone.openApp('gallery')">
-                                <div class="app-shape bg-gal">📷</div><div class="app-name">Fotos</div>
+                                <div class="app-shape bg-tel">📞</div><div class="app-name">Chamadas</div>
                             </div>
                             <div class="app-icon-btn" onclick="Phone.openApp('notes')">
                                 <div class="app-shape bg-not">📝</div><div class="app-name">Notas</div>
                             </div>
                         </div>
-
+                        <div class="mt-auto mb-8 text-center">
+                            <button onclick="Phone.closeDevice()" class="text-gray-500 text-sm py-2 px-6 border border-gray-700 rounded-full hover:bg-gray-800">◀ Voltar</button>
+                        </div>
                         <div id="app-whatsapp" class="app-window">
                             <div class="app-nav">
-                                <span class="text-blue-500 cursor-pointer" onclick="Phone.closeApp()">◀ Voltar</span>
+                                <span class="text-blue-500 cursor-pointer" onclick="Phone.closeApp()">◀ Início</span>
                                 <span class="font-bold text-white">Conversas</span>
                                 <span></span>
                             </div>
                             <div class="app-content" id="whatsapp-list"></div>
-
                             <div id="whatsapp-view" class="absolute top-0 left-0 w-full h-full bg-black flex flex-col hidden z-50">
                                 <div class="app-nav">
                                     <span class="text-blue-500 cursor-pointer" onclick="document.getElementById('whatsapp-view').classList.add('hidden')">◀</span>
@@ -278,41 +279,28 @@
                                 <div id="chat-msgs" class="flex-1 p-3 overflow-y-auto flex flex-col gap-2"></div>
                             </div>
                         </div>
-
                         <div id="app-calls" class="app-window">
                             <div class="app-nav">
-                                <span class="text-blue-500 cursor-pointer" onclick="Phone.closeApp()">◀ Voltar</span>
+                                <span class="text-blue-500 cursor-pointer" onclick="Phone.closeApp()">◀ Início</span>
                                 <span class="font-bold text-white">Recentes</span>
                                 <span></span>
                             </div>
                             <div class="app-content" id="calls-list"></div>
                         </div>
-
-                        <div id="app-gallery" class="app-window">
-                            <div class="app-nav">
-                                <span class="text-blue-500 cursor-pointer" onclick="Phone.closeApp()">◀ Álbuns</span>
-                                <span class="font-bold text-white">Rolo (189)</span>
-                                <span></span>
-                            </div>
-                            <div class="app-content grid grid-cols-3 gap-0.5" id="gallery-grid"></div>
-                        </div>
-
                         <div id="app-notes" class="app-window">
                             <div class="app-nav">
-                                <span class="text-yellow-500 cursor-pointer" onclick="Phone.closeApp()">◀ Pastas</span>
+                                <span class="text-yellow-500 cursor-pointer" onclick="Phone.closeApp()">◀ Início</span>
                                 <span class="font-bold text-white">Notas</span>
                                 <span></span>
                             </div>
                             <div class="app-content p-4 space-y-3" id="notes-list"></div>
                         </div>
-
                     </div>
                 </div>
-                <p style="color:#999;padding:10px 20px 0;font-size:12px">O celular contém conversas com todos os envolvidos. Explore as conversas para montar a linha de tempo. Algumas mensagens foram apagadas — não podem ser recuperadas diretamente.</p>
             </div>
 
             <div id="tab-suspeitos" class="page-section">
-                <h2>Depoimentos Colhidos</h2>
+                <h2>Arquivo de Investigação: Depoimentos Oficiais</h2>
                 <div id="suspects-container"></div>
             </div>
 
@@ -320,70 +308,37 @@
                 <h2>Cronologia Reconstrutiva</h2>
                 <div class="evidence-doc font-mono text-sm">
                     <ul class="space-y-4">
-                        <li class="pl-4 border-l-4 border-gray-400"><strong>19:00 -</strong> Registro de saída do veículo do Dr. Aris na portaria principal. Câmeras confirmam apenas um ocupante.</li>
-                        <li class="pl-4 border-l-4 border-gray-400"><strong>19:30 -</strong> Testemunhas (copa) relatam elevação de voz na biblioteca. Identificada voz feminina (Sofia) proferindo ofensas relacionadas a patrimônio.</li>
-                        <li class="pl-4 border-l-4 border-gray-400"><strong>19:45 -</strong> Fluxo de serviço: Carla entra com pastas de arquivo. Relata comportamento errático da vítima, descrevendo-o como "aéreo" e com copo de bebida alcoólica em mãos.</li>
-                        <li class="pl-4 border-l-4 border-gray-400"><strong>19:50 -</strong> Fluxo de serviço: Elena entra com a bandeja de chá noturno. Permanece no recinto por aproximadamente 3 minutos.</li>
-                        <li class="pl-4 border-l-4 border-red-800 bg-red-50 py-2"><strong>19:55 -</strong> Registro de mensagem de voz enviada pelo celular da vítima. O áudio é arrastado e contém reclamações sobre "distorção de cores" e desconforto gástrico severo.</li>
-                        <li class="pl-4 border-l-4 border-black bg-gray-200 py-2"><strong>20:00 -</strong> Interrupção total do fornecimento elétrico. Investigação preliminar aponta corte manual nos cabos da caixa de força externa.</li>
-                        <li class="pl-4 border-l-4 border-black"><strong>20:12 -</strong> Estampido único de arma de fogo ouvido por múltiplos depoentes em diferentes pontos da propriedade.</li>
-                        <li class="pl-4 border-l-4 border-black"><strong>20:30 -</strong> Retorno da energia. Segurança arromba a porta da biblioteca. Óbito constatado visualmente.</li>
+                        <li class="pl-4 border-l-4 border-gray-400"><strong>19:00 -</strong> Dr. Aris deixa a residência. Portaria confirma.</li>
+                        <li class="pl-4 border-l-4 border-gray-400"><strong>19:30 -</strong> Vozes alteradas na biblioteca. Testemunhas reconhecem Sofia chorando.</li>
+                        <li class="pl-4 border-l-4 border-gray-400"><strong>19:42 -</strong> Elena desce para a cozinha. Prepara uma infusão de ervas.</li>
+                        <li class="pl-4 border-l-4 border-gray-400"><strong>19:45 -</strong> Carla entra na biblioteca. Leva pastas para assinatura e serve uma bebida. Sai 4 minutos depois.</li>
+                        <li class="pl-4 border-l-4 border-gray-400"><strong>19:50 -</strong> Elena leva a infusão para o marido. Fica brevemente no recinto.</li>
+                        <li class="pl-4 border-l-4 border-red-800 bg-red-50 py-2"><strong>19:55 -</strong> Áudio enviado pela vítima no grupo da empresa. A voz está arrastada, ele reclama que as luzes estão com "auréolas douradas" e sente náusea forte.</li>
+                        <li class="pl-4 border-l-4 border-black bg-gray-200 py-2"><strong>20:00 -</strong> Apagão Total. Sabotagem na caixa de força externa.</li>
+                        <li class="pl-4 border-l-4 border-black"><strong>20:12 -</strong> Um único disparo de arma de fogo é ouvido.</li>
+                        <li class="pl-4 border-l-4 border-black"><strong>20:30 -</strong> Luz retorna. Corpo encontrado na poltrona.</li>
                     </ul>
                 </div>
             </div>
 
             <div id="tab-provas" class="page-section">
-                <h2>Laudo Técnico Pericial #4092-ALPHA</h2>
+                <h2>Laudo Pericial: Causa Mortis</h2>
                 <div class="evidence-doc text-xs font-mono leading-relaxed">
-                    <p class="mb-2"><strong>SOLICITANTE:</strong> Delegacia de Homicídios</p>
-                    <p class="mb-4"><strong>OBJETO:</strong> Exame Cadavérico de M. Thorne</p>
-
-                    <h3 class="font-bold border-b border-gray-400 mb-2 mt-4">1. EXAME TRAUMATOLÓGICO (TÓRAX)</h3>
-                    <p>Orifício de entrada único localizado no hemitórax esquerdo, terceiro espaço intercostal. Zona de tatuagem presente (tiro a curta distância).</p>
-                    <p><strong>Achados Macroscópicos da Ferida:</strong></p>
-                    <ul class="list-disc pl-5 mb-2">
-                        <li>Bordas da lesão: Pálidas, sem reação vital aparente.</li>
-                        <li>Retração tecidual: Mínima/Inexistente.</li>
-                        <li>Infiltração Hemorrágica Perilesional: <strong>NEGATIVO</strong> (Ausência de extravasamento sanguíneo nos tecidos adjacentes ao trajeto).</li>
+                    <div class="border-b-2 border-black mb-4 pb-2">
+                        <h3 class="text-lg font-bold">INSTITUTO MÉDICO LEGAL</h3>
+                        <p>RELATÓRIO DE AUTOPSIA #9902-B</p>
+                    </div>
+                    <p class="mb-2 bg-gray-100 p-2"><strong>RESUMO:</strong> A cena sugere homicídio por arma de fogo, mas a biologia conta outra história.</p>
+                    <h4 class="font-bold mt-4 underline">1. ANÁLISE DO FERIMENTO (TÓRAX)</h4>
+                    <p>Orifício de entrada no hemitórax esquerdo. Tatuagem de pólvora presente (tiro à queima-roupa).</p>
+                    <p><strong>Achado Patológico:</strong> As bordas da ferida estão pálidas, brancas. Não há sangue infiltrado nos tecidos ao redor. O coração estava parado quando a bala o atingiu.</p>
+                    <p><em>Conclusão 1:</em> O tiro foi disparado post-mortem.</p>
+                    <h4 class="font-bold mt-4 underline">2. TOXICOLOGIA (SANGUE)</h4>
+                    <ul class="list-disc pl-5">
+                        <li><strong>Etanol:</strong> 0.4 g/L (Baixo - compatível com meio copo de whisky)</li>
+                        <li><strong>Digoxina:</strong> 16.5 ng/mL (Nível Massivo/Letal - Faixa normal: 0.8 a 2.0)</li>
                     </ul>
-                    <p>Cavidade Pleural: Presença de fluido sanguíneo residual (&lt; 15ml). Hemotórax massivo não observado.</p>
-
-                    <h3 class="font-bold border-b border-gray-400 mb-2 mt-4">2. ANÁLISE TOXICOLÓGICA (SORO)</h3>
-                    <table class="w-full text-left mt-2 mb-2 border border-collapse border-gray-300">
-                        <tr class="bg-gray-200">
-                            <th class="border p-1">Analito</th>
-                            <th class="border p-1">Concentração</th>
-                            <th class="border p-1">Faixa Terapêutica</th>
-                        </tr>
-                        <tr>
-                            <td class="border p-1">Etanol</td>
-                            <td class="border p-1">0.4 g/L</td>
-                            <td class="border p-1">-</td>
-                        </tr>
-                        <tr>
-                            <td class="border p-1">Digoxina</td>
-                            <td class="border p-1">16.5 ng/mL</td>
-                            <td class="border p-1">0.8 - 2.0 ng/mL</td>
-                        </tr>
-                        <tr>
-                            <td class="border p-1">Cianeto</td>
-                            <td class="border p-1">Não Detectado</td>
-                            <td class="border p-1">-</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-            <div id="tab-arquivos" class="page-section">
-                <h2>Caderno de Campo</h2>
-                <div class="polaroid" style="transform: rotate(2deg);">
-                    <p class="font-['Kalam'] p-4 text-left text-sm leading-snug">"O legista insistiu três vezes na questão do sangue. Ele disse que 'a física não bate com a gravidade'. O corpo estava sentado, mas o fluxo não desceu como deveria após o trauma balístico. Questionar Victor novamente sobre a posição exata do disparo."</p>
-                </div>
-                <div class="polaroid" style="transform: rotate(-1deg);">
-                    <p class="font-['Kalam'] p-4 text-left text-sm leading-snug">"O relato das 19:55 é bizarro. Ele disse que as luzes do corredor pareciam 'auréolas divinas e douradas'. A secretária achou que ele estava bêbado, mas o nível de álcool no sangue foi baixo (0.4). O que causa alucinação cromática amarela?"</p>
-                </div>
-                <div class="polaroid" style="transform: rotate(1deg);">
-                    <p class="font-['Kalam'] p-4 text-left text-sm leading-snug">"Elena estava calma demais. Ela disse que o chá é uma tradição, mas ela nunca prepara. Hoje ela preparou. Disse que ele estava agitado e não conseguia engolir comprimidos a seco, então ela 'ajudou'."</p>
+                    <p><em>Conclusão 2:</em> Parada cardiorrespiratória induzida por intoxicação digitálica aguda.</p>
                 </div>
             </div>
 
@@ -393,7 +348,7 @@
     <div id="solve-modal" class="modal-overlay">
         <div class="modal-paper">
             <h2 class="text-center text-xl font-bold border-b-2 border-black pb-2 text-red-700">MANDADO DE PRISÃO</h2>
-            <p class="text-sm mt-3 text-justify leading-tight">A lei exige precisão. Não buscamos quem <em>tentou</em> matar, nem quem <em>queria</em> matar. Buscamos a causalidade biológica imediata que cessou a vida de Marcus Thorne.</p>
+            <p class="text-sm mt-3 text-justify leading-tight mb-4">A lei exige a causa biológica. Quem interrompeu a vida de Marcus Thorne antes de qualquer outro evento?</p>
             <div id="modal-suspects" class="suspect-grid-select"></div>
             <button class="w-full bg-red-800 text-white font-bold py-3 mt-5 hover:bg-red-900 transition" onclick="Game.submit()">EMITIR SENTENÇA</button>
             <p class="text-center text-xs mt-3 underline cursor-pointer" onclick="document.getElementById('solve-modal').style.display='none'">Cancelar</p>
@@ -401,7 +356,7 @@
     </div>
 
     <script>
-        // DADOS (7 suspeitos e conversas ampliadas e fichas)
+        // --- BASE DE DADOS COMPLETA E SEM DICAS ÓBVIAS ---
         const DATA = {
             suspects: [
                 {
@@ -409,384 +364,302 @@
                     name: 'Elena Thorne',
                     role: 'Esposa',
                     img: '2.jpg',
-                    txt: '"Vocês acham que é fácil viver 20 anos com um homem que te trata como mobília? Eu levei o chá sim..."',
-                    bio: 'Elena, 48 anos. Casada com Marcus Thorne por 20 anos. Formada em literatura, abandonou carreira profissional para gerir a casa e atuar como primeira-dama de eventos da fundação.',
-                    criminal: 'Sem registro criminal. Disciplina doméstica e conflitos familiares registrados em queixas de vizinhos (barulho, discussões).',
-                    motive: 'Tenso relacionamento conjugal, testamento em transição e briga por poder na empresa; ressentimento acumulado.',
-                    alibi: 'Diz ter ido ao quarto e trancado a porta após servir o chá às 19:42. Sem testemunhas diretas do que ocorreu entre 19:42 e 19:50 na biblioteca.',
-                    notes: 'Observada calma excessiva. Relato de trituração de comprimidos (questionado pela perícia).'
+                    bio: 'Esposa dedicada por 20 anos. Mantém a fundação de caridade da família. Sempre elegante, mas visivelmente medicada e com tremores nas mãos.',
+                    testimony: 'DEP.: "(Chorando muito) Vocês não entendem... vinte anos. Vinte anos eu dei a ele. Sim, nós brigávamos, quem não briga? Ele estava estressado com a fusão da empresa. Eu só queria acalmá-lo. Preparei o chá de camomila que ele gosta, levei até lá... ele reclamou que estava amargo, mas bebeu. Eu fui para o quarto rezar para que ele se acalmasse. Eu o amava, do meu jeito torto, eu o amava."',
+                    phone: {
+                        notes: [ { t: 'Diário', b: 'A solidão nesta casa é ensurdecedora. Ele nem me olha mais.' }, { t: 'Lembrete', b: 'Consulta psiquiatra terça-feira. Renovar receita de calmantes.' } ],
+                        chats: [ 
+                            { n: 'Filho (Exterior)', msgs: [{s:1, m:'Mãe, você precisa sair daí.', t:'Ontem'}, {s:0, m:'Não posso deixá-lo agora. Ele precisa de mim.', t:'Ontem'}, {s:0, m:'Eu fiz uma promessa no altar.', t:'Hoje'}] },
+                            { n: 'Advogado Dr. Silva', msgs: [{s:1, m:'Sobre o divórcio: os termos são duros.', t:'10:00'}, {s:0, m:'Esqueça o divórcio. Não vou humilhá-lo publicamente.', t:'10:15'}, {s:1, m:'Tem certeza? O testamento novo...', t:'10:20'}, {s:0, m:'Eu disse para esquecer!', t:'10:21'}] },
+                            { n: 'Melhor Amiga', msgs: [{s:1, m:'Ele gritou com você de novo?', t:'19:00'}, {s:0, m:'Está tudo bem. Eu sei como fazer ele dormir.', t:'19:10'}] }
+                        ],
+                        calls: [ { n:'Advogado', t:'09:00', s:'Efetuada (30m)' }, { n:'Psiquiatra', t:'14:00', s:'Efetuada (15m)' }, { n:'Mãe', t:'18:00', s:'Recebida (10m)' } ]
+                    }
                 },
                 {
                     id: 'victor',
                     name: 'Victor Vance',
                     role: 'Sócio',
                     img: '3.jpg',
-                    txt: '"Eu não tenho nada a esconder... Eu o matei para não ser destruído."',
-                    bio: 'Victor, 52 anos. Sócio majoritário adjunto. Histórico de pressão por resultados, endividamento pessoal e ameaças financeiras.',
-                    criminal: 'Uma ocorrência por ameaça verbal em 2012. Sem condenações econômicas formais até o momento.',
-                    motive: 'Perda potencial de patrimônio com auditoria marcada; risco pessoal e profissional iminente.',
-                    alibi: 'Admite ter circulado pela casa durante o apagão; confessa ter disparado. Reivindica que agiu impulsivamente no escuro.',
-                    notes: 'Confissão emotiva. Há relatos que o viram correndo com objeto brilhante por volta das 20:00-20:05.'
+                    bio: 'Sócio de longa data. Conhecido por seu temperamento explosivo e gosto por jogos de azar. Estava sendo investigado por desvio de fundos.',
+                    testimony: 'DEP.: "(Suando profusamente) Marcus era meu irmão! Não de sangue, mas de alma. Nós construímos tudo isso juntos. Sim, eu estava desesperado. A auditoria ia acabar comigo. Eu fui lá implorar por tempo. Ele riu... disse que eu era um fracassado. As luzes apagaram. Eu não via nada. Senti a arma na mesa. Eu... eu só queria assustá-lo! Ouvi um barulho e atirei no escuro! Eu não sou um assassino, foi acidente!"',
+                    phone: {
+                        notes: [ { t: 'Dívidas', b: 'Cassino Royal: 500k\nAgiota: 200k\nPrazo: AMANHÃ.' }, { t: 'Ideias', b: 'Vender ações? (Bloqueadas)\nHipoteca da casa? (Já fiz).' } ],
+                        chats: [ 
+                            { n: 'Cobrador "Cão"', msgs: [{s:1, m:'O prazo acabou, Victor.', t:'18:00'}, {s:1, m:'Se não pagar, sua família paga.', t:'18:05'}, {s:0, m:'Eu vou resolver. Hoje à noite tudo acaba.', t:'18:10'}] },
+                            { n: 'Esposa', msgs: [{s:0, m:'Desculpa por tudo. Eu falhei com vocês.', t:'19:50'}, {s:0, m:'Eu te amo.', t:'19:51'}] },
+                            { n: 'Contador', msgs: [{s:1, m:'Eles vão abrir os livros amanhã cedo.', t:'15:00'}, {s:0, m:'Não se preocupe. Não haverá reunião amanhã.', t:'20:15'}] }
+                        ],
+                        calls: [ { n:'Cobrador', t:'18:15', s:'Recebida (Ameaça)' }, { n:'Esposa', t:'20:20', s:'Efetuada (1m)' }, { n:'Emergência', t:'20:25', s:'Discada (cancelada)' } ]
+                    }
                 },
                 {
                     id: 'sofia',
                     name: 'Sofia Thorne',
                     role: 'Filha',
                     img: '4.jpg',
-                    txt: '"Ele me chamou de parasita... Saí pro jardim fumar."',
-                    bio: 'Sofia, 24 anos. Filha do casal, estudante. Vida social intensa; distância afetiva com o pai, relação conflituosa por questões de herança.',
-                    criminal: 'Nenhum histórico criminal. Reclamações por desentendimentos familiares.',
-                    motive: 'Raiva por ter sido deserdada, desejo de ver o pai humilhado — motivação emocional, não necessariamente homicida.',
-                    alibi: 'Alega ter saído para o jardim e usado fones de ouvido. Há testemunhas que viram movimentação, mas não confirmam som do tiro.',
-                    notes: 'Expressou desejar mal ao pai em mensagens — potencial de rixa forte.'
+                    bio: 'Filha caçula. Estudante de Artes. Relacionamento turbulento com o pai devido ao estilo de vida boêmio.',
+                    testimony: 'DEP.: "Ele era um tirano. Controlava o que eu vestia, com quem eu andava, o que eu gastava. Hoje ele passou dos limites, disse que ia me deserdar se eu não largasse a faculdade. Eu gritei que queria que ele morresse, sim. Gritei na cara dele! Mas daí a matar meu pai? Eu fui pro jardim fumar e ouvir música. Não ouvi nada por causa dos fones. Quando a luz voltou, ele já estava... daquele jeito."',
+                    phone: {
+                        notes: [ { t: 'Rascunho Carta', b: 'Pai, eu não quero seu dinheiro. Eu quero seu respeito. Se você não consegue me aceitar...' } ],
+                        chats: [ 
+                            { n: 'Julia BFF', msgs: [{s:0, m:'Ele é insuportável! Cortou meus cartões.', t:'19:32'}, {s:0, m:'Disse que sou uma vergonha.', t:'19:33'}, {s:1, m:'Vem dormir aqui em casa amiga.', t:'19:34'}] },
+                            { n: 'Namorado', msgs: [{s:1, m:'Ele aceitou a gente?', t:'19:40'}, {s:0, m:'Nem consegui falar disso. Ele só gritava.', t:'19:45'}, {s:0, m:'Queria que ele sumisse.', t:'19:46'}] },
+                            { n: 'Dealer "Mágico"', msgs: [{s:0, m:'Tem algo pra relaxar? Tô muito nervosa.', t:'16:00'}, {s:1, m:'O de sempre? Passo aí mais tarde.', t:'16:10'}] }
+                        ],
+                        calls: [ { n:'Namorado', t:'20:00', s:'Perdida' }, { n:'Julia BFF', t:'20:10', s:'Perdida' }, { n:'Uber', t:'20:35', s:'Cancelada' } ]
+                    }
                 },
                 {
                     id: 'aris',
                     name: 'Dr. Aris',
                     role: 'Médico',
                     img: '5.jpg',
-                    txt: '"Protocolos digitálicos padrão... Eu saí às 19:00."',
-                    bio: 'Cardiologista responsável pelo acompanhamento de Marcus há anos. Atuação profissional respeitável, documentação médica extensa.',
-                    criminal: 'Sem histórico criminal. Consulta e receituário dentro dos parâmetros, porém com anotações de ajustes de doses.',
-                    motive: 'Profissional padrão. Motivos diretos improváveis; possível negligência médica teorizada por outras partes.',
-                    alibi: 'Registros de GPS e chamadas mostram que deixou o local às 19:00 e esteve a quilômetros no momento do disparo.',
-                    notes: 'Comentou sobre sintomas neurológicos (visão amarela) que poderiam indicar toxicidade medicamentosa.'
+                    bio: 'Médico da família há 15 anos. Muito respeitado na comunidade, mas com rumores de dívidas de jogo.',
+                    testimony: 'DEP.: "Minha conduta é irrepreensível. Cuido do coração do Marcus há uma década. Estive lá para a consulta de rotina. A pressão estava alta, ajustei a medicação. Saí exatamente às 19:00 para um jantar beneficente. Tenho testemunhas. A saúde dele era frágil, qualquer estresse poderia ser fatal, mas eu fiz meu trabalho para mantê-lo vivo, afinal, ele era meu paciente mais... rentável."',
+                    phone: {
+                        notes: [ { t: 'Paciente M.T.', b: 'Quadro estável. Reclama de palpitações. Manter dosagem padrão. Ele ameaçou trocar de médico se não melhorar.' } ],
+                        chats: [ 
+                            { n: 'Clínica', msgs: [{s:1, m:'Doutor, os exames do Sr. Thorne chegaram.', t:'14:00'}, {s:0, m:'Encaminhe para meu e-mail pessoal.', t:'14:10'}] },
+                            { n: 'Corretora de Apostas', msgs: [{s:1, m:'O cavalo número 5 perdeu.', t:'18:00'}, {s:0, m:'Droga. Vou precisar de um adiantamento dos meus honorários.', t:'18:05'}] },
+                            { n: 'Esposa', msgs: [{s:0, m:'Saindo da mansão agora. O velho está insuportável, mas pagou o cheque.', t:'19:01'}] }
+                        ],
+                        calls: [ { n:'Hospital', t:'20:05', s:'Recebida (Emergência)' }, { n:'Esposa', t:'19:05', s:'Efetuada (5m)' }, { n:'Corretora', t:'18:10', s:'Efetuada (2m)' } ]
+                    }
                 },
                 {
                     id: 'bruno',
                     name: 'Bruno',
                     role: 'Motorista',
                     img: '6.jpg',
-                    txt: '"Fui ver o gerador; vi alguém passar correndo."',
-                    bio: 'Bruno, 38 anos. Motorista e responsável por manutenção básica. Histórico de lealdade ao patrão, mas com desconfianças sobre a equipe.',
-                    criminal: 'Nenhum crime maior; pequenas infrações de trânsito.',
-                    motive: 'Sem motivo claro para homicídio; possível receio e medo ao testemunhar atividades estranhas.',
-                    alibi: 'Estava verificando o gerador no momento do apagão; relata ter visto alguém correndo com algo brilhante.',
-                    notes: 'Declaração útil para cruzar horários de passagem e cortes de energia.'
+                    bio: 'Ex-militar, chefe da segurança e motorista. Leal, sério, poucas palavras. Recentemente teve atritos sobre sua aposentadoria.',
+                    testimony: 'DEP.: "Eu daria minha vida pelo Sr. Thorne. Ele me tirou da rua, me deu um emprego digno. Sim, ele estava difícil ultimamente, a doença mudou ele. Mas eu nunca o machucaria. Quando a luz caiu, meu instinto foi proteger o perímetro. Corri para o gerador. Vi uma sombra pulando o muro, tentei seguir mas perdi. Voltei e já era tarde. Falhei na minha missão."',
+                    phone: {
+                        notes: [ { t: 'Segurança', b: 'Sensor do portão norte com defeito. Câmera 4 cega.' }, { t: 'Aposentadoria', b: 'Ele disse que vai cuidar de tudo. Confio nele.' } ],
+                        chats: [ 
+                            { n: 'Mãe', msgs: [{s:1, m:'Filho, as contas do hospital venceram.', t:'12:00'}, {s:0, m:'O patrão vai me ajudar. Ele prometeu.', t:'12:30'}] },
+                            { n: 'Grupo Segurança', msgs: [{s:0, m:'Alerta de intruso no setor oeste?', t:'19:48'}, {s:1, m:'Negativo, deve ser o vento.', t:'19:49'}] },
+                            { n: 'Sindicato', msgs: [{s:1, m:'Se ele te demitir sem justa causa, nos avise.', t:'Ontem'}, {s:0, m:'Ele não faria isso. Somos amigos.', t:'Hoje'}] }
+                        ],
+                        calls: [ { n:'Mãe', t:'19:50', s:'Recebida (5m)' }, { n:'Portaria', t:'20:01', s:'Efetuada (Sem sinal)' }, { n:'Emergência', t:'20:31', s:'Efetuada' } ]
+                    }
                 },
                 {
                     id: 'carla',
                     name: 'Carla',
                     role: 'Secretária',
                     img: '7.jpg',
-                    txt: '"Era impossível trabalhar com ele hoje. Assinei papéis e servi whisky..."',
-                    bio: 'Carla, 45 anos. Secretária pessoal há 12 anos. Conhece rotinas íntimas da casa; confiança e acesso a bebidas, armários e arquivos.',
-                    criminal: 'Sem antecedentes penais conhecidos. Reputação discreta no trabalho — passível de passar despercebida.',
-                    motive: 'Histórico de descontentamento e humilhações. Proximidade e oportunidade: acesso à bebida da vítima; pode manipular doses sem ser percebida.',
-                    alibi: 'Afirma ter permanecido na cozinha junto às cozinheiras durante o apagão; registros e câmera mostram movimento de bandejas antes do blackout.',
-                    notes: 'Tem acesso direto ao whisky; uma mensagem apagada em seu chat é particularmente suspeita — mas apagadas não são recuperáveis no jogo.'
+                    bio: 'Trabalha na mansão há 12 anos. Organiza a vida de Marcus. Discreta, eficiente, considerada "da família" por alguns, mas tratada como serviçal por Marcus.',
+                    testimony: 'DEP.: "(Soluçando e limpando os óculos) Ele foi a figura paterna que eu nunca tive. Eu organizava tudo... os remédios, a agenda, as viagens. Ele estava tão confuso hoje, coitado. Entrei para levar os papéis da fusão e servi o whisky dele. Ele parecia triste. Eu só queria cuidar dele. Fui para a cozinha ajudar a cozinheira e de repente tudo ficou escuro. Eu não acredito que ele se foi."',
+                    phone: {
+                        notes: [ 
+                            { t: 'Agenda Semanal', b: 'Seg: Reunião Diretoria.\nTer: Médico.\nQua: Jantar Beneficente.' },
+                            { t: 'Protocolo Noturno', b: '1. Verificar trancas.\n2. O Sr. Thorne tem dificuldade para engolir as pílulas grandes do coração. O Dr. Aris prescreveu, mas ele cospe. Lembrete: Triturar bem e dissolver no whisky, é o único jeito dele tomar sem reclamar.\n3. Apagar luzes do escritório.' } 
+                        ],
+                        chats: [ 
+                            { n: 'Mãe (Asilo)', msgs: [{s:1, m:'Ele veio me visitar?', t:'10:00'}, {s:0, m:'Não, mãe. Ele nem sabe que você existe.', t:'10:05'}, {s:0, m:'Mas ele vai pagar por tudo que fez com a gente, de um jeito ou de outro.', t:'10:06'}] },
+                            { n: 'Farmácia Delivery', msgs: [{s:1, m:'Seu pedido #9902 saiu para entrega.', t:'15:30'}, {s:1, m:'Entregue na portaria.', t:'16:00'}, {s:0, m:'Obrigada. É urgente.', t:'16:05'}] },
+                            { n: 'Banco', msgs: [{s:1, m:'Seu saldo está negativo.', t:'Ontem'}, {s:0, m:'Vou receber uma herança em breve.', t:'Hoje'}] }
+                        ],
+                        calls: [ { n:'Farmácia', t:'15:00', s:'Efetuada (2m)' }, { n:'Mãe', t:'21:00', s:'Perdida' }, { n:'Desconhecido', t:'19:00', s:'Recebida (1m)' } ]
+                    }
                 },
                 {
                     id: 'miguel',
                     name: 'Miguel',
                     role: 'Rival',
                     img: '8.jpg',
-                    txt: '"Cortei a luz pra desativar câmeras; não sou assassino."',
-                    bio: 'Miguel, 41 anos. Empresário rival com histórico de espionagem industrial. Agressivo, esperto em operações rápidas.',
-                    criminal: 'Acusações de violação de propriedade intelectual; investigado no passado por invasões de escritório.',
-                    motive: 'Interesse em senhas e documentos. Cortar a luz era parte de seu objetivo, não necessariamente de matar.',
-                    alibi: 'Admite cortar a luz e tentar entrar; foi detido pelos seguranças ao tentar sair pelo muro.',
-                    notes: 'A ação de cortar energia cria confusão na timeline e facilita encenações.'
+                    bio: 'Empresário concorrente. Famoso por táticas agressivas de negociação. Foi encontrado pelos seguranças tentando pular o muro após o tiro.',
+                    testimony: 'DEP.: "Olha, eu sou um homem de negócios, não um assassino. Eu precisava daquele pendrive com os dados da fusão. Vale bilhões! Eu cortei a energia sim, para desativar as câmeras e entrar despercebido. Mas quando cheguei perto da janela, ouvi o tiro e corri. Eu nem entrei na casa! Podem checar minhas mãos, não tenho resíduos de pólvora!"',
+                    phone: {
+                        notes: [ { t: 'Plano B', b: 'Se a compra falhar, extração manual. \nAlvo: PenDrive vermelho.\nHorário: 20:00 (Troca de turno da guarda).' } ],
+                        chats: [ 
+                            { n: 'Técnico TI', msgs: [{s:0, m:'Como desativo o alarme?', t:'14:00'}, {s:1, m:'Corte a energia geral. O backup demora 30seg para entrar.', t:'14:10'}] },
+                            { n: 'Cliente X', msgs: [{s:1, m:'Preciso desses dados hoje.', t:'18:00'}, {s:0, m:'Estou indo para lá agora.', t:'19:40'}] },
+                            { n: 'Esposa', msgs: [{s:0, m:'Vou atrasar para o jantar. Negócios.', t:'19:30'}] }
+                        ],
+                        calls: [ { n:'Advogado', t:'20:40', s:'Efetuada (Delegacia)' }, { n:'Cliente X', t:'17:00', s:'Efetuada (10m)' }, { n:'Escritório', t:'12:00', s:'Recebida (5m)' } ]
+                    }
                 }
-            ],
-
-            chats: [
-                { id: 'elena', name: 'Elena', msgs: [
-                    { s:0, t:'18:15', m:'Ele está impossível hoje.' },
-                    { s:0, t:'19:42', m:'Vou levar o chá agora. Ele precisa se acalmar.' },
-                    { s:0, t:'19:55', m:'Ele tomou. Reclamou do gosto.' },
-                    { s:1, t:'20:05', m:'Ele pareceu melhor por um minuto.' }
-                ]},
-                { id: 'victor', name: 'Victor', msgs: [
-                    { s:1, t:'17:30', m:'Auditores às 8.' },
-                    { s:0, t:'20:02', m:'Escuridão total aqui.' },
-                    { s:0, t:'20:14', m:'Resolvi o problema. Não haverá auditoria.' }
-                ]},
-                { id: 'sofia', name: 'Sofia', msgs: [
-                    { s:0, t:'19:33', m:'Ele me deserdou.' },
-                    { s:0, t:'19:35', m:'Queria que ele engasgasse com o whisky.' },
-                    { s:1, t:'19:50', m:'Fique calma. Vai passar.' }
-                ]},
-                { id: 'aris', name: 'Dr. Aris', msgs: [
-                    { s:1, t:'18:45', m:'Ajuste a dose se houver náusea.' },
-                    { s:1, t:'19:05', m:'Mandei a nova prescrição.' }
-                ]},
-                { id: 'bruno', name: 'Bruno', msgs: [
-                    { s:1, t:'19:48', m:'Vi alguém passar correndo.' },
-                    { s:1, t:'20:05', m:'Tentei consertar o gerador.' }
-                ]},
-                { id: 'carla', name: 'Carla', msgs: [
-                    { s:0, t:'19:10', m:'Preparei o whisky como ele gosta.' },
-                    { s:0, t:'19:52', m:'Deixei o arquivo final nomeado 19_74 como pediu.' },
-                    { s:0, t:'19:57', m:'(mensagem apagada)', deleted:true }
-                ]},
-                { id: 'miguel', name: 'Miguel', msgs: [
-                    { s:0, t:'19:40', m:'Vou cortar a energia por um minuto.' },
-                    { s:0, t:'19:41', m:'Pronto. Câmeras off.' }
-                ]}
-            ],
-
-            calls: [
-                { n: 'Dr. Aris', t: '18:45', s: 'Recebida (45s)' },
-                { n: 'Advogado', t: '16:00', s: 'Efetuada (55m)' },
-                { n: 'Victor', t: '19:58', s: 'Perdida' }
-            ],
-
-            notes: [
-                { t: 'Sintomas Recentes', b: 'Registro pessoal:\n- Náusea persistente.\n- Confusão mental.\n- HOJE: Halos dourados, náusea intensa.' },
-                { t: 'Pendências', b: '1. Demitir Victor.\n2. Alterar testamento.\n3. Discutir com a secretária.' }
             ]
         };
 
-        const Game = { selSuspect: null };
-
-        // inicializa UI e modal suspects, com fichas ampliadas
-        Game.init = function() {
-            const container = document.getElementById('suspects-container');
-            const modal = document.getElementById('modal-suspects');
-            container.innerHTML = '';
-            modal.innerHTML = '';
-
-            DATA.suspects.forEach(s => {
-                const div = document.createElement('div');
-                div.className = 'suspect-card';
-                // estruturando corpo da ficha com seções expansíveis
-                div.innerHTML = `
-                    <div class="suspect-header">
-                        <img src="${s.img}" class="suspect-thumb" onerror="this.src='https://placehold.co/60'">
-                        <div style="flex:1">
-                            <h3 class="font-bold uppercase m-0">${s.name}</h3>
-                            <span class="text-xs text-gray-500">${s.role}</span>
-                        </div>
-                        <div style="padding-right:12px">
-                            <button class="header-solve-btn" style="padding:6px 8px;font-size:12px" onclick="Game.pickSuspect(event,'${s.id}')">Acusar</button>
-                        </div>
-                    </div>
-                    <div class="suspect-body">
-                        <p class="italic text-gray-700 font-serif border-l-4 border-gray-400 pl-3 leading-relaxed">${s.txt}</p>
-
-                        <div class="ficha-section">
-                            <div class="ficha-title">Biografia</div>
-                            <div class="ficha-content">${s.bio}</div>
-                        </div>
-
-                        <div class="ficha-section">
-                            <div class="ficha-title">Ficha Criminal / Histórico</div>
-                            <div class="ficha-content">${s.criminal}</div>
-                        </div>
-
-                        <div class="ficha-section">
-                            <div class="ficha-title">Motivações</div>
-                            <div class="ficha-content">${s.motive}</div>
-                        </div>
-
-                        <div class="ficha-section">
-                            <div class="ficha-title">Álibi</div>
-                            <div class="ficha-content">${s.alibi}</div>
-                        </div>
-
-                        <div class="ficha-section">
-                            <div class="ficha-title">Notas</div>
-                            <div class="ficha-content">${s.notes}</div>
-                        </div>
-                    </div>
-                `;
-                // toggle open body on header click except when Acusar button clicked
-                div.querySelector('.suspect-header').addEventListener('click', function(e){
-                    if (e.target.tagName.toLowerCase() === 'button') return;
-                    this.nextElementSibling.classList.toggle('open');
-                });
-                container.appendChild(div);
-
-                // modal option
-                const opt = document.createElement('div');
-                opt.className = 's-option';
-                opt.dataset.id = s.id;
-                opt.innerHTML = `<img src="${s.img}" onerror="this.src='https://placehold.co/60'"><br><strong>${s.name}</strong>`;
-                opt.addEventListener('click', function(){
-                    document.querySelectorAll('#modal-suspects .s-option').forEach(x => x.classList.remove('selected'));
-                    this.classList.add('selected');
-                    Game.selSuspect = this.dataset.id;
-                });
-                modal.appendChild(opt);
-            });
-
-            Phone.init();
-        };
-
-        Game.pickSuspect = function(e, id) {
-            e.stopPropagation();
-            Game.selSuspect = id;
-            document.getElementById('solve-modal').style.display = 'flex';
-            document.querySelectorAll('#modal-suspects .s-option').forEach(x => x.classList.remove('selected'));
-            const opt = Array.from(document.querySelectorAll('#modal-suspects .s-option')).find(x => x.dataset.id === id);
-            if (opt) opt.classList.add('selected');
-        };
-
-        Game.switchTab = function(id, el) {
-            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
-            const target = document.getElementById('tab-'+id);
-            if (target) target.classList.add('active');
-            document.querySelectorAll('.folder-tab').forEach(t => t.classList.remove('active'));
-            if (el) el.classList.add('active');
-            localStorage.setItem('thorne_case_data_tab', id);
-        };
-
-        Game.saveData = function(key, val) {
-            localStorage.setItem('thorne_case_data_'+key, val);
-        };
-
-        Game.openSolveModal = function() {
-            document.getElementById('solve-modal').style.display = 'flex';
-            document.querySelectorAll('#modal-suspects .s-option').forEach(x => x.classList.remove('selected'));
-            if (Game.selSuspect) {
-                const opt = Array.from(document.querySelectorAll('#modal-suspects .s-option')).find(x => x.dataset.id === Game.selSuspect);
-                if (opt) opt.classList.add('selected');
-            }
-        };
-
-        Game.submit = function() {
-            const p = document.querySelector('.modal-paper');
-
-            if (!Game.selSuspect) {
-                p.innerHTML = `
-                    <h2 class="text-red-600 text-center font-bold text-xl">NENHUM SUSPEITO SELECIONADO</h2>
-                    <p class="mt-3 text-sm">Selecione o suspeito na grade antes de emitir a sentença.</p>
-                    <div style="text-align:right;margin-top:12px"><button class="w-1/3 bg-gray-800 text-white p-2" onclick="document.getElementById('solve-modal').style.display='none'">Fechar</button></div>
-                `;
-                return;
-            }
-
-            // CORRECT suspect: Carla
-            if (Game.selSuspect === 'carla') {
-                p.innerHTML = `
-                    <h2 class="text-green-600 text-center font-bold text-xl">CASO ENCERRADO</h2>
-                    <p class="mt-4 text-sm font-bold">Carla (Secretária) é a autora.</p>
-                    <div class="text-xs mt-3 bg-gray-100 p-3 border border-gray-300 text-justify">
-                        <p class="mb-2"><strong>Justificativa técnica e testemunhal:</strong></p>
-                        <p>• A toxicologia mostra digoxina em nível tóxico (16.5 ng/mL), compatível com ingestão oral minutos antes da parada cardíaca.</p>
-                        <p>• Evidências cronológicas: sintomas às 19:55; disparo às 20:12 - a ausência de infiltração hemorrágica indica que o disparo ocorreu após a cessação da circulação.</p>
-                        <p>• Testemunhal e acesso: Carla tinha acesso direto à bebida e ao serviço das mesas; mensagens e movimentos a colocam próxima ao whisky.</p>
-                    </div>
-                    <div style="text-align:right;margin-top:12px"><button class="w-1/2 bg-gray-800 text-white p-2" onclick="location.reload()">Reiniciar</button></div>
-                `;
-                return;
-            }
-
-            // WRONG suspect: only objective rejection, no hints
-            const chosen = DATA.suspects.find(s => s.id === Game.selSuspect);
-            let reason = '';
-
-            if (Game.selSuspect === 'victor') {
-                reason = 'Victor confessou o disparo, mas o laudo pericial indica que o disparo ocorreu após a parada cardíaca (ausência de infiltração hemorrágica). Portanto, sua ação não é a causa biológica da morte.';
-            } else if (Game.selSuspect === 'elena') {
-                reason = 'Elena administrou o chá; contudo não há evidência técnica que a conecte à administração da substância tóxica em nível incompatível com a sobrevivência.';
-            } else if (Game.selSuspect === 'sofia') {
-                reason = 'Sofia estava fora do recinto (alibi parcial) e não há elementos que a conectem tecnicamente à administração da substância que causou a parada.';
-            } else if (Game.selSuspect === 'aris') {
-                reason = 'Dr. Aris deixou a casa antes dos sintomas críticos e a conduta médica documentada não o conecta à ingestão tóxica que precedeu a parada.';
-            } else if (Game.selSuspect === 'bruno') {
-                reason = 'Bruno esteve no gerador e relatou ver alguém; não há evidência de que ele teve oportunidade ou motivo técnico para administrar a substância tóxica.';
-            } else if (Game.selSuspect === 'miguel') {
-                reason = 'Miguel reconheceu ter cortado a energia para desativar câmeras, mas não há conexão técnica entre sua ação e a administração da substância tóxica que causou a parada cardíaca.';
-            } else {
-                reason = 'As evidências técnicas não o conectam diretamente à causa mortis biológica.';
-            }
-
-            p.innerHTML = `
-                <h2 class="text-red-600 text-center font-bold text-xl">ACUSAÇÃO REJEITADA</h2>
-                <div class="text-sm mt-3 text-justify">
-                    <p>Você escolheu: <strong>${chosen ? chosen.name : Game.selSuspect}</strong></p>
-                    <p style="margin-top:10px">${reason}</p>
-                </div>
-                <div style="text-align:right;margin-top:12px"><button class="w-1/2 bg-gray-800 text-white p-2" onclick="document.getElementById('solve-modal').style.display='none'">Fechar</button></div>
-            `;
-        };
-
-        // PHONE object
-        const Phone = {
+        const Game = {
+            selSuspect: null,
             init: function() {
-                const cl = document.getElementById('whatsapp-list');
-                if (cl) cl.innerHTML = '';
-                DATA.chats.forEach(c => {
-                    const d = document.createElement('div');
-                    d.className = 'chat-row';
-                    d.onclick = () => Phone.openChat(c);
-                    d.innerHTML = `
-                        <div class="avatar"></div>
-                        <div class="flex-1 overflow-hidden">
-                            <div class="flex justify-between"><strong class="text-white text-sm">${c.name}</strong><span class="text-xs text-gray-500">${c.msgs[c.msgs.length-1].t}</span></div>
-                            <div class="text-gray-400 text-xs truncate">${c.msgs[c.msgs.length-1].m}</div>
-                        </div>
-                    `;
-                    cl.appendChild(d);
-                });
-
-                const cal = document.getElementById('calls-list');
-                if (cal) cal.innerHTML = '';
-                DATA.calls.forEach(c => {
-                    cal.innerHTML += `
-                        <div class="chat-row items-center">
-                            <div class="text-xl w-8 text-center">${c.s.includes('Perdida') ? '❌' : '📞'}</div>
-                            <div class="flex-1">
-                                <strong class="${c.s.includes('Perdida') ? 'text-red-500' : 'text-white'} text-sm">${c.n}</strong>
-                                <div class="text-xs text-gray-500">${c.s} • ${c.t}</div>
-                            </div>
-                        </div>
-                    `;
-                });
-
-                const nl = document.getElementById('notes-list');
-                if (nl) nl.innerHTML = '';
-                DATA.notes.forEach(n => {
-                    nl.innerHTML += `<div class="bg-gray-800 p-3 rounded-lg"><strong class="text-yellow-500 text-sm block mb-1">${n.t}</strong><p class="text-xs text-gray-300 whitespace-pre-line">${n.b}</p></div>`;
-                });
-
-                // gallery placeholders (keeps original paths intact)
-                const gl = document.getElementById('gallery-grid');
-                if (gl) {
-                    gl.innerHTML = '';
-                    for (let i = 0; i < 12; i++) {
-                        gl.innerHTML += `<div style="background: #333; height: 80px; border: 1px solid black;"></div>`;
-                    }
-                }
+                Game.renderMural();
+                Game.renderSuspects();
+                Game.renderPhoneSelector();
             },
-            openApp: function(id) {
-                document.querySelectorAll('.app-window').forEach(x => x.classList.remove('active'));
-                const el = document.getElementById('app-'+id);
+            renderMural: function() {
+                const board = document.getElementById('mural-board');
+                const svg = document.getElementById('mural-svg');
+                const cx = board.clientWidth / 2;
+                const cy = board.clientHeight / 2;
+                DATA.suspects.forEach((s, index) => {
+                    const el = document.createElement('div');
+                    el.className = 'mural-suspect-pic';
+                    el.innerHTML = `<img src="${s.img}" style="width:100%;height:100%;object-fit:cover;"><div class="mural-label">${s.name}</div>`;
+                    const angle = (index / DATA.suspects.length) * 2 * Math.PI;
+                    const radius = Math.min(cx, cy) - 60;
+                    const left = cx + radius * Math.cos(angle) - 40;
+                    const top = cy + radius * Math.sin(angle) - 45;
+                    el.style.left = left + 'px'; el.style.top = top + 'px';
+                    el.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
+                    el.onclick = () => { Game.switchTab('suspeitos'); document.querySelector(`.suspect-card:nth-child(${index+1}) .suspect-header`).click(); };
+                    board.appendChild(el);
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+                    line.setAttribute('x2', left + 40); line.setAttribute('y2', top + 45);
+                    line.setAttribute('class', 'string-line');
+                    svg.appendChild(line);
+                });
+            },
+            renderSuspects: function() {
+                const container = document.getElementById('suspects-container');
+                const modal = document.getElementById('modal-suspects');
+                container.innerHTML = ''; modal.innerHTML = '';
+                DATA.suspects.forEach(s => {
+                    const div = document.createElement('div');
+                    div.className = 'suspect-card';
+                    div.innerHTML = `
+                        <div class="suspect-header">
+                            <img src="${s.img}" class="suspect-thumb">
+                            <div style="flex:1"><h3 class="font-bold uppercase m-0 text-lg">${s.name}</h3><span class="text-sm text-blue-800 font-bold">${s.role}</span></div>
+                            <span class="text-xs text-gray-400">▼ Ler Depoimento</span>
+                        </div>
+                        <div class="suspect-body">
+                            <div class="ficha-section"><div class="ficha-title">📜 Perfil</div><div class="ficha-content">${s.bio}</div></div>
+                            <div class="ficha-section"><div class="ficha-title">🗣️ Depoimento Gravado</div><div class="ficha-content italic text-gray-800 bg-white p-3 border border-gray-300 shadow-inner">"${s.testimony}"</div></div>
+                        </div>`;
+                    div.querySelector('.suspect-header').addEventListener('click', function(){ this.nextElementSibling.classList.toggle('open'); });
+                    container.appendChild(div);
+                    const opt = document.createElement('div');
+                    opt.className = 's-option'; opt.dataset.id = s.id;
+                    opt.innerHTML = `<img src="${s.img}"><br><strong>${s.name}</strong>`;
+                    opt.addEventListener('click', function(){
+                        document.querySelectorAll('#modal-suspects .s-option').forEach(x => x.classList.remove('selected'));
+                        this.classList.add('selected'); Game.selSuspect = this.dataset.id;
+                    });
+                    modal.appendChild(opt);
+                });
+            },
+            renderPhoneSelector: function() {
+                const grid = document.getElementById('phone-selector-grid');
+                grid.innerHTML = '';
+                DATA.suspects.forEach(s => {
+                    const btn = document.createElement('div');
+                    btn.className = 'phone-select-btn';
+                    btn.onclick = () => Phone.openDevice(s.id);
+                    btn.innerHTML = `<img src="${s.img}" alt="${s.name}"><span>${s.name}</span>`;
+                    grid.appendChild(btn);
+                });
+            },
+            switchTab: function(id, el) {
+                document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+                const target = document.getElementById('tab-'+id);
+                if (target) target.classList.add('active');
+                document.querySelectorAll('.folder-tab').forEach(t => t.classList.remove('active'));
                 if (el) el.classList.add('active');
+            },
+            openSolveModal: function() { document.getElementById('solve-modal').style.display = 'flex'; },
+            submit: function() {
+                const p = document.querySelector('.modal-paper');
+                if (!Game.selSuspect) { alert("Selecione um suspeito!"); return; }
+                if (Game.selSuspect === 'carla') {
+                    p.innerHTML = `
+                        <h2 class="text-green-600 text-center font-bold text-xl mb-4">MISTÉRIO RESOLVIDO</h2>
+                        <div class="bg-green-50 p-4 border border-green-400 text-sm text-justify mb-4 font-mono">
+                            <p class="font-bold mb-2">CULPADA: CARLA (SECRETÁRIA)</p>
+                            <p><strong>A PROVA TÉCNICA:</strong> O laudo de autopsia indicou <strong>overdose de Digoxina</strong> e que o tiro atingiu um coração já parado (sem sangue na ferida).</p>
+                            <p><strong>O MODUS OPERANDI:</strong> No celular de Carla, uma nota disfarçada de "cuidado" instruía <strong>"triturar e dissolver no whisky"</strong> a medicação. Isso causou a absorção rápida e letal relatada no laudo.</p>
+                            <p><strong>O MOTIVO:</strong> As mensagens revelam que ela é filha ilegítima não reconhecida e estava buscando vingança financeira ("herança em breve").</p>
+                        </div>
+                        <button class="w-full bg-gray-800 text-white p-3" onclick="location.reload()">Jogar Novamente</button>`;
+                } else {
+                    let reason = "As evidências biológicas (toxicologia e ferimento) não conectam este suspeito à causa primária da morte.";
+                    if (Game.selSuspect === 'victor') reason = "Victor atirou, sim (confessou no pânico). Mas o laudo prova que o coração já estava parado quando a bala entrou. Ele atirou em um cadáver.";
+                    p.innerHTML = `
+                        <h2 class="text-red-600 text-center font-bold text-xl mb-4">ERRO JUDICIAL</h2>
+                        <div class="bg-red-50 p-4 border border-red-200 text-sm text-justify mb-4">
+                            <p class="font-bold">Suspeito errado.</p>
+                            <p class="mt-2">${reason}</p>
+                            <p class="mt-2">O verdadeiro assassino usou um método mais silencioso e saiu impune.</p>
+                        </div>
+                        <button class="w-full bg-gray-800 text-white p-3" onclick="document.getElementById('solve-modal').style.display='none'">Tentar Novamente</button>`;
+                }
+            }
+        };
+
+        const Phone = {
+            currentData: null,
+            openDevice: function(id) {
+                const s = DATA.suspects.find(x => x.id === id);
+                if(!s) return;
+                Phone.currentData = s.phone;
+                document.getElementById('phone-home-screen').classList.add('hidden');
+                document.getElementById('phone-inner-screen').classList.remove('hidden');
+                document.getElementById('ph-owner-name').innerText = s.name;
+                document.getElementById('ph-owner-avatar').style.background = `url(${s.img}) center/cover`;
+            },
+            closeDevice: function() {
+                Phone.closeApp();
+                document.getElementById('phone-inner-screen').classList.add('hidden');
+                document.getElementById('phone-home-screen').classList.remove('hidden');
+                Phone.currentData = null;
+            },
+            openApp: function(app) {
+                if(!Phone.currentData) return;
+                document.querySelectorAll('.app-window').forEach(x => x.classList.remove('active'));
+                const w = document.getElementById('app-'+app);
+                if(w) w.classList.add('active');
+                if(app === 'whatsapp') Phone.loadChats();
+                if(app === 'calls') Phone.loadCalls();
+                if(app === 'notes') Phone.loadNotes();
             },
             closeApp: function() {
                 document.querySelectorAll('.app-window').forEach(x => x.classList.remove('active'));
-                const view = document.getElementById('whatsapp-view');
-                if (view) view.classList.add('hidden');
+                document.getElementById('whatsapp-view').classList.add('hidden');
             },
-            openChat: function(chat) {
-                const view = document.getElementById('whatsapp-view');
-                if (!view) return;
-                view.classList.remove('hidden');
-                document.getElementById('chat-title').innerText = chat.name;
+            loadChats: function() {
+                const list = document.getElementById('whatsapp-list');
+                list.innerHTML = '';
+                Phone.currentData.chats.forEach(c => {
+                    const d = document.createElement('div');
+                    d.className = 'chat-row';
+                    d.onclick = () => Phone.viewChat(c);
+                    const lastMsg = c.msgs[c.msgs.length-1];
+                    d.innerHTML = `<div class="avatar">👤</div><div class="flex-1 overflow-hidden"><div class="flex justify-between"><strong class="text-white text-sm">${c.n}</strong><span class="text-xs text-gray-500">${lastMsg.t}</span></div><div class="text-gray-400 text-xs truncate">${lastMsg.m}</div></div>`;
+                    list.appendChild(d);
+                });
+            },
+            viewChat: function(chat) {
+                document.getElementById('whatsapp-view').classList.remove('hidden');
+                document.getElementById('chat-title').innerText = chat.n;
                 const area = document.getElementById('chat-msgs');
                 area.innerHTML = '';
                 chat.msgs.forEach(m => {
-                    if (m.deleted) {
-                        area.innerHTML += `<div class="msg-bubble received"><i style="color:#bbb;font-style:italic">(mensagem apagada)</i><br><span class="text-[9px] opacity-50">${m.t}</span></div>`;
-                    } else {
-                        area.innerHTML += `<div class="msg-bubble ${m.s===0?'sent':'received'}">${m.m}<br><span class="text-[9px] opacity-50">${m.t}</span></div>`;
-                    }
+                    area.innerHTML += `<div class="msg-bubble ${m.s===0?'sent':'received'}">${m.m}<br><span class="text-[9px] opacity-50 block text-right mt-1">${m.t}</span></div>`;
+                });
+            },
+            loadCalls: function() {
+                const list = document.getElementById('calls-list');
+                list.innerHTML = '';
+                Phone.currentData.calls.forEach(c => {
+                    list.innerHTML += `<div class="chat-row items-center"><div class="text-xl w-8 text-center">${c.s.includes('Perdida')||c.s.includes('Cancelada') ? '❌' : '📞'}</div><div class="flex-1"><strong class="${c.s.includes('Perdida') ? 'text-red-500' : 'text-white'} text-sm">${c.n}</strong><div class="text-xs text-gray-500">${c.s} • ${c.t}</div></div></div>`;
+                });
+            },
+            loadNotes: function() {
+                const list = document.getElementById('notes-list');
+                list.innerHTML = '';
+                Phone.currentData.notes.forEach(n => {
+                    list.innerHTML += `<div class="bg-gray-800 p-3 rounded-lg border border-gray-700"><strong class="text-yellow-500 text-sm block mb-1 border-b border-gray-600 pb-1">${n.t}</strong><p class="text-xs text-gray-300 whitespace-pre-line leading-relaxed">${n.b}</p></div>`;
                 });
             }
         };
 
-        // inicia
-        document.addEventListener('DOMContentLoaded', function() {
-            Game.init();
-            const last = localStorage.getItem('thorne_case_data_tab');
-            if (last) {
-                const tabEl = document.querySelector(`.folder-tab[onclick*="${last}"]`);
-                if (tabEl) tabEl.classList.add('active');
-            }
-        });
+        window.onload = Game.init;
     </script>
 </body>
 </html>
+
