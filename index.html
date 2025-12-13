@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Caso Thorne: Arquivo Morto - Edição Completa</title>
+    <title>Caso Thorne: Arquivo Morto - Edição Completa (+18)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Kalam:wght@300;400;700&family=Special+Elite&family=Roboto+Condensed:wght@300;400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -26,6 +26,17 @@
             color: #333;
             overflow-y: auto;
             overflow-x: hidden;
+            padding-top: 40px; /* Espaço para a barra de aviso */
+        }
+
+        /* --- ATUALIZADO: BARRA DE AVISO LEGAL +18 --- */
+        .legal-banner {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background-color: #000; color: #ff0000; /* Texto Vermelho para chamar atenção */
+            text-align: center; padding: 10px;
+            font-family: 'Inter', sans-serif; font-size: 12px; font-weight: bold;
+            z-index: 9999; border-bottom: 2px solid #fff;
+            text-transform: uppercase; letter-spacing: 1px;
         }
 
         .desk-bg {
@@ -47,7 +58,7 @@
         }
 
         @media(min-width: 768px) {
-            body { padding: 20px; display: flex; align-items: center; justify-content: center; }
+            body { padding-top: 60px; padding-bottom: 20px; display: flex; align-items: center; justify-content: center; }
             #notebook-container { margin: 20px auto; border-radius: 4px; min-height: auto; height: 90vh; }
         }
 
@@ -184,6 +195,10 @@
     </style>
 </head>
 <body>
+    <div class="legal-banner">
+        ⚠️ Classificação Indicativa: 18 ANOS (Violência, Drogas, Temas Sensíveis)
+    </div>
+
     <div class="desk-bg"></div>
 
     <div id="notebook-container">
@@ -336,7 +351,7 @@
                     <h4 class="font-bold mt-4 underline">2. TOXICOLOGIA (SANGUE)</h4>
                     <ul class="list-disc pl-5">
                         <li><strong>Etanol:</strong> 0.4 g/L (Baixo - compatível com meio copo de whisky)</li>
-                        <li><strong>Digoxina:</strong> 16.5 ng/mL (Nível Massivo/Letal - Faixa normal: 0.8 a 2.0)</li>
+                        <li><strong>Digoxina:</strong> 16.5 ng/mL <span class="text-red-600 font-bold block text-[10px] mt-1 bg-red-50 p-1 rounded border border-red-200">⚠ NÍVEL MASSIVO/LETAL (Faixa normal: 0.8 a 2.0) - Cerca de 8x acima do suportado.</span></li>
                     </ul>
                     <p><em>Conclusão 2:</em> Parada cardiorrespiratória induzida por intoxicação digitálica aguda.</p>
                 </div>
@@ -566,7 +581,10 @@
             submit: function() {
                 const p = document.querySelector('.modal-paper');
                 if (!Game.selSuspect) { alert("Selecione um suspeito!"); return; }
-                if (Game.selSuspect === 'carla') {
+                
+                // CRIPTOGRAFIA PARA ESCONDER A RESPOSTA NO CÓDIGO FONTE
+                // 'Y2FybGE=' é a versão codificada do nome da assassina
+                if (btoa(Game.selSuspect) === 'Y2FybGE=') {
                     p.innerHTML = `
                         <h2 class="text-green-600 text-center font-bold text-xl mb-4">MISTÉRIO RESOLVIDO</h2>
                         <div class="bg-green-50 p-4 border border-green-400 text-sm text-justify mb-4 font-mono">
